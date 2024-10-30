@@ -17,14 +17,17 @@ void SPIController::sendStartFrame() {
 }
 
 // Function to send end frame
-void SPIController::sendEndFrame(int numLEDs) {
-    for (int i = 0; i < (numLEDs / 2); i++) {
+void SPIController::sendEndFrame(int numLEDs) 
+{
+    for (int i = 0; i < (numLEDs / 2); i++) 
+    {
         SPI.transfer(0xFF); // Send enough bits to latch
     }
 }
 
 // Function to send color data to one LED (APA102C format includes brightness)
-void SPIController::sendColor(uint8_t brightness, uint8_t red, uint8_t green, uint8_t blue) {
+void SPIController::sendColor(uint8_t brightness, uint8_t red, uint8_t green, uint8_t blue) 
+{
     SPI.transfer(0xE0 | (brightness & 0x1F));  // Brightness control
     SPI.transfer(blue);  // Send Blue component
     SPI.transfer(green); // Send Green component

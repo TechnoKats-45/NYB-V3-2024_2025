@@ -40,13 +40,7 @@
     <ClCompile Include="TwinklingStars.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
-    <ClCompile Include="CountDownTimer.cpp">
-      <Filter>Source Files\Patterns</Filter>
-    </ClCompile>
     <ClCompile Include="Breathing.cpp">
-      <Filter>Source Files\Patterns</Filter>
-    </ClCompile>
-    <ClCompile Include="Fireworks.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
     <ClCompile Include="Ripple.cpp">
@@ -61,14 +55,17 @@
     <ClCompile Include="Meteor.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
+    <ClCompile Include="oneAtATimeConfetti.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="FillPanel.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
     <ClCompile Include="UARTController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="__vm\.NYB V3 2024_2025.vsarduino.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Confetti.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
@@ -81,13 +78,7 @@
     <ClInclude Include="TwinklingStars.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
-    <ClInclude Include="CountDownTimer.h">
-      <Filter>Header Files\Patterns</Filter>
-    </ClInclude>
     <ClInclude Include="Breathing.h">
-      <Filter>Header Files\Patterns</Filter>
-    </ClInclude>
-    <ClInclude Include="Fireworks.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
     <ClInclude Include="Ripple.h">
@@ -100,6 +91,15 @@
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
     <ClInclude Include="Meteor.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="__vm\.NYB V3 2024_2025.vsarduino.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="oneAtATimeConfetti.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="FillPanel.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
     <ClInclude Include="UARTController.h">

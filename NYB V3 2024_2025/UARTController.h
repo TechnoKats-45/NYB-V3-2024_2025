@@ -6,20 +6,16 @@
 class UARTController
 {
 public:
-    // Constructor
-    UARTController();
+    UARTController(HardwareSerial& serialPort = Serial1, uint32_t baudRate = 9600);
 
-    // Method to initialize UART
-    void begin(long baudRate);
-
-    // Method to check for incoming data and read 1 byte
-    void checkForData();
-
-    // Method to return the last mode byte received
-    uint8_t getMode() const;
+    void begin();
+    bool readMode();
+    uint8_t getCurrentMode();
 
 private:
-    uint8_t modeByte;  // Store the received mode byte
+    HardwareSerial& serial;
+    uint32_t baud;
+    uint8_t currentMode;
 };
 
 #endif // UARTCONTROLLER_H

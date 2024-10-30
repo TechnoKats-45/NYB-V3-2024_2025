@@ -6,6 +6,7 @@
 
 // Declare global variables using extern
 extern int NUM_LEDS;
+extern int global_brightness;
 
 #endif // GLOBALS_H
 

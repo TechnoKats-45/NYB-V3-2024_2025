@@ -1,7 +1,8 @@
 #include "Confetti.h"
 #include <Arduino.h>
+#include "Globals.h"
 
-#define confettiDelay 20  // Delay between confetti steps in milliseconds
+#define confettiDelay 250  // Delay between confetti steps in milliseconds
 
 // Confetti setup function
 void Confetti_setup(SPIController& spiController) 
@@ -19,7 +20,7 @@ void Confetti_loop(SPIController& spiController, int numLEDs)
     {
         if (random(0, 4) == 0) 
         {
-            spiController.sendColor(1, 0, 0, 0);  // 25% chance of no color
+            spiController.sendColor(global_brightness, 0, 0, 0);  // 25% chance of no color
         }
         else 
         {

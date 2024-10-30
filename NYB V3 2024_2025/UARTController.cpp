@@ -1,26 +1,32 @@
 #include "UARTController.h"
 
 // Constructor
-UARTController::UARTController() : modeByte(0) {}
+UARTController::UARTController(HardwareSerial& serialPort, uint32_t baudRate)
+    : serial(serialPort), baud(baudRate), currentMode(255) {}
 
-// Method to initialize UART with a given baud rate
-void UARTController::begin(long baudRate) 
+// Begin serial communication
+void UARTController::begin()
 {
-    Serial.begin(baudRate);
+    serial.begin(baud);
 }
 
-// Method to check for incoming data and read 1 byte
-void UARTController::checkForData() 
+// Read mode from UART if available
+bool UARTController::readMode()
 {
-    if (Serial.available() > 0) 
+    if (serial.available() > 0)
     {
-        modeByte = Serial.read();   // Read 1 byte from UART
-        Serial.write(modeByte);     // Echo the byte back on the UART
+        uint8_t mode = serial.read();
+        if (mode != currentMode)
+        {
+            currentMode = mode;
+            return true;
+        }
     }
+    return false;
 }
 
-// Method to return the last mode byte received
-uint8_t UARTController::getMode() const 
+// Get the current mode
+uint8_t UARTController::getCurrentMode()
 {
-    return modeByte;
+    return currentMode;
 }

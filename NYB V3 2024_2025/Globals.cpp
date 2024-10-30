@@ -1,7 +1,8 @@
 // globals.cpp
 #include "globals.h"
 
-int NUM_LEDS = 474;  // Number of LEDs in the strip
+int NUM_LEDS = 475;  // Number of LEDs in the strip
+int global_brightness = 3;  // Global brightness level
 
 
 // three 26-LED panels = 78
