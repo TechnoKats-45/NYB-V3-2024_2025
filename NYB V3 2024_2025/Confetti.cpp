@@ -1,33 +1,33 @@
 #include "Confetti.h"
 #include <Arduino.h>
-#include "Globals.h"
+#include "Globals.h"  // Include Globals to access MAX_BRIGHTNESS
 
 #define confettiDelay 250  // Delay between confetti steps in milliseconds
 
 // Confetti setup function
-void Confetti_setup(SPIController& spiController) 
+void Confetti_setup(SPIController& spiController)
 {
     spiController.begin();
     randomSeed(analogRead(A0));  // Seed random generator
 }
 
 // Confetti loop function
-void Confetti_loop(SPIController& spiController, int numLEDs) 
+void Confetti_loop(SPIController& spiController, int numLEDs)
 {
     spiController.sendStartFrame();
 
-    for (int i = 0; i < numLEDs; i++) 
+    for (int i = 0; i < numLEDs; i++)
     {
-        if (random(0, 4) == 0) 
+        if (random(0, 4) == 0)
         {
-            spiController.sendColor(global_brightness, 0, 0, 0);  // 25% chance of no color
+            spiController.sendColor(0, 0, 0, 0);  // 25% chance of no color
         }
-        else 
+        else
         {
             uint8_t red = random(0, 256);
             uint8_t green = random(0, 256);
             uint8_t blue = random(0, 256);
-            spiController.sendColor(1, red, green, blue);  // 75% chance of random color
+            spiController.sendColor(MAX_BRIGHTNESS, red, green, blue);  // Use MAX_BRIGHTNESS for adjustable brightness
         }
     }
 

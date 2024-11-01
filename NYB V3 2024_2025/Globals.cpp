@@ -2,8 +2,7 @@
 #include "globals.h"
 
 int NUM_LEDS = 475;  // Number of LEDs in the strip
-int global_brightness = 3;  // Global brightness level
-
+int MAX_BRIGHTNESS = 3;  // Maximum brightness of the LEDs
 
 // three 26-LED panels = 78
 // four 36-LED panels = 144

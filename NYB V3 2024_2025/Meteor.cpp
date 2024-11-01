@@ -1,27 +1,30 @@
 #include "Meteor.h"
 #include <Arduino.h>
+#include "Globals.h"
 
-void Meteor_setup(SPIController& spiController) 
+void Meteor_setup(SPIController& spiController)
 {
     spiController.begin();
 }
 
-void Meteor_loop(SPIController& spiController, int numLEDs) 
+void Meteor_loop(SPIController& spiController, int numLEDs)
 {
     static int meteorPosition = numLEDs - 1;
 
     spiController.sendStartFrame();
 
-    for (int i = 0; i < numLEDs; i++) 
+    for (int i = 0; i < numLEDs; i++)
     {
-        if (i == meteorPosition) 
+        if (i == meteorPosition)
         {
-            spiController.sendColor(31, 255, 255, 255);  // Bright white meteor
+            spiController.sendColor(MAX_BRIGHTNESS, 255, 255, 255);  // Bright white meteor scaled by MAX_BRIGHTNESS
         }
-        else if (i > meteorPosition) {
-            spiController.sendColor(15, 255, 255, 255);  // Fading tail
+        else if (i > meteorPosition)
+        {
+            spiController.sendColor(MAX_BRIGHTNESS / 2, 255, 255, 255);  // Fading tail at half of MAX_BRIGHTNESS
         }
-        else {
+        else
+        {
             spiController.sendColor(1, 0, 0, 0);  // Off
         }
     }

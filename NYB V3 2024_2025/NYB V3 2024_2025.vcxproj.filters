@@ -49,16 +49,10 @@
     <ClCompile Include="Sparkle.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
-    <ClCompile Include="RainbowChase.cpp">
-      <Filter>Source Files\Patterns</Filter>
-    </ClCompile>
     <ClCompile Include="Meteor.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
     <ClCompile Include="oneAtATimeConfetti.cpp">
-      <Filter>Source Files\Patterns</Filter>
-    </ClCompile>
-    <ClCompile Include="FillPanel.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
     <ClCompile Include="UARTController.cpp">
@@ -87,9 +81,6 @@
     <ClInclude Include="Sparkle.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
-    <ClInclude Include="RainbowChase.h">
-      <Filter>Header Files\Patterns</Filter>
-    </ClInclude>
     <ClInclude Include="Meteor.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
@@ -97,9 +88,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="oneAtATimeConfetti.h">
-      <Filter>Header Files\Patterns</Filter>
-    </ClInclude>
-    <ClInclude Include="FillPanel.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
     <ClInclude Include="UARTController.h">

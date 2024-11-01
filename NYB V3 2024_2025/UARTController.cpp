@@ -1,8 +1,7 @@
 #include "UARTController.h"
 
 // Constructor
-UARTController::UARTController(HardwareSerial& serialPort, uint32_t baudRate)
-    : serial(serialPort), baud(baudRate), currentMode(255) {}
+UARTController::UARTController(HardwareSerial& serialPort, uint32_t baudRate): serial(serialPort), baud(baudRate), currentMode(255) {}
 
 // Begin serial communication
 void UARTController::begin()
