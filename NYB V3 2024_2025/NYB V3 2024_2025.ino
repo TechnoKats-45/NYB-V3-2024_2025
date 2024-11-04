@@ -105,12 +105,9 @@ void setupPattern()
 		StartupSequence_setup(spiController);
 		break;
         */
-
-        /*
     case 11:
 		RowByRow_setup(spiController);
 		break;
-        */
     default:
         Breathing_setup(spiController);
         break;
@@ -156,11 +153,9 @@ void loopPattern()
 		StartupSequence_loop(spiController, NUM_LEDS);
 		break;
         */
-        /*
 	case 11:
 		RowByRow_loop(spiController);
 		break;
-        */
     case 255:
         Serial.println("Invalid Mode");
         break;
