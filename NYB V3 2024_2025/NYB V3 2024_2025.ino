@@ -17,35 +17,31 @@ uint8_t color = 0;
 uint8_t config = 0;
 SPIController spiController;
 
-void setup() 
+void setup()
 {
     spiController.begin();
     Serial.begin(9600);
     Serial1.begin(115200);
 }
 
-void loop() 
+void loop()
 {
     static uint8_t uartBuffer[4];
     static uint8_t bytesRead = 0;
 
-    while (Serial1.available() > 0) 
+    while (Serial1.available() > 0)
     {
         uartBuffer[bytesRead++] = Serial1.read();
 
-        if (bytesRead == 4) 
+        if (bytesRead == 4)
         {
             currentMode = uartBuffer[0];
-
-            brightness = uartBuffer[1];
-            MAX_BRIGHTNESS = brightness;
-
-            color = uartBuffer[2];
+            MAX_BRIGHTNESS = uartBuffer[1];
 
             config = uartBuffer[3];
-			uartBuffer[3] = uartBuffer[3] + 1;  // Increment config to show that the data has been received - will be read by the server to see that all panels are responding
+            uartBuffer[3] = uartBuffer[3] + 1;  // Increment config to indicate data received
 
-			Serial1.write(uartBuffer, 4);   // Echos data to next panel in the chain or back to the server if last panel
+            Serial1.write(uartBuffer, 4);   // Echoes data to the next panel in the chain
 
             bytesRead = 0;
 
@@ -53,14 +49,10 @@ void loop()
             Serial.print("Mode: ");
             Serial.println(currentMode);
             Serial.print("Brightness: ");
-            Serial.println(brightness);
-            Serial.print("Color (Future Use): ");
-            Serial.println(color);
-            Serial.print("Config (Future Use): ");
-            Serial.println(config);
+            Serial.println(MAX_BRIGHTNESS);
             Serial.println("---------------------------------");
 
-            if (currentMode != lastMode) 
+            if (currentMode != lastMode)
             {
                 lastMode = currentMode;
                 setupPattern();
@@ -70,9 +62,9 @@ void loop()
     loopPattern();
 }
 
-void setupPattern() 
+void setupPattern()
 {
-    switch (currentMode) 
+    switch (currentMode)
     {
     case 0:
         Confetti_setup(spiController);
@@ -104,9 +96,9 @@ void setupPattern()
     }
 }
 
-void loopPattern() 
+void loopPattern()
 {
-    switch (currentMode) 
+    switch (currentMode)
     {
     case 0:
         Confetti_loop(spiController, NUM_LEDS);

@@ -58,6 +58,9 @@
     <ClCompile Include="UARTController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TestNumber.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Confetti.h">
@@ -92,6 +95,9 @@
     </ClInclude>
     <ClInclude Include="UARTController.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestNumber.h">
+      <Filter>Header Files\Patterns</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
