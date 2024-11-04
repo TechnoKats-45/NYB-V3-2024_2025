@@ -13,6 +13,7 @@
 #include "ColorFade.h"
 #include "StartupSequence.h"
 #include "RowByRow.h"
+#include "AmericanFlag.h"
 
 uint8_t currentMode = 255;
 uint8_t lastMode = 255;
@@ -108,6 +109,9 @@ void setupPattern()
     case 11:
 		RowByRow_setup(spiController);
 		break;
+    case 12:
+		AmericanFlag_setup(spiController);
+		break;
     default:
         Breathing_setup(spiController);
         break;
@@ -155,6 +159,9 @@ void loopPattern()
         */
 	case 11:
 		RowByRow_loop(spiController);
+		break;
+	case 12:
+		AmericanFlag_loop(spiController);
 		break;
     case 255:
         Serial.println("Invalid Mode");

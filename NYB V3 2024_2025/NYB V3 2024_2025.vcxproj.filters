@@ -55,9 +55,6 @@
     <ClCompile Include="oneAtATimeConfetti.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
-    <ClCompile Include="TestNumber.cpp">
-      <Filter>Source Files\Patterns</Filter>
-    </ClCompile>
     <ClCompile Include="Fire.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
@@ -68,6 +65,9 @@
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
     <ClCompile Include="RowByRow.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="AmericanFlag.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
   </ItemGroup>
@@ -102,9 +102,6 @@
     <ClInclude Include="oneAtATimeConfetti.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
-    <ClInclude Include="TestNumber.h">
-      <Filter>Header Files\Patterns</Filter>
-    </ClInclude>
     <ClInclude Include="Fire.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
@@ -119,6 +116,9 @@
     </ClInclude>
     <ClInclude Include="PanelMapping.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AmericanFlag.h">
+      <Filter>Header Files\Patterns</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
