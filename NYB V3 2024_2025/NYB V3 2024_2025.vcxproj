@@ -94,7 +94,6 @@
     <ClCompile Include="StartupSequence.cpp" />
     <ClCompile Include="TestNumber.cpp" />
     <ClCompile Include="TwinklingStars.cpp" />
-    <ClCompile Include="UARTController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Breathing.h" />
@@ -112,7 +111,6 @@
     <ClInclude Include="StartupSequence.h" />
     <ClInclude Include="TestNumber.h" />
     <ClInclude Include="TwinklingStars.h" />
-    <ClInclude Include="UARTController.h" />
     <ClInclude Include="__vm\.NYB V3 2024_2025.vsarduino.h" />
   </ItemGroup>
   <PropertyGroup>

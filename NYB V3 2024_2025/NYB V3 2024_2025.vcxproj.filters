@@ -55,9 +55,6 @@
     <ClCompile Include="oneAtATimeConfetti.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
-    <ClCompile Include="UARTController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TestNumber.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
@@ -104,9 +101,6 @@
     </ClInclude>
     <ClInclude Include="oneAtATimeConfetti.h">
       <Filter>Header Files\Patterns</Filter>
-    </ClInclude>
-    <ClInclude Include="UARTController.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TestNumber.h">
       <Filter>Header Files\Patterns</Filter>
