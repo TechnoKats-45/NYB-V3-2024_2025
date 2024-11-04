@@ -25,7 +25,7 @@
     <ClCompile Include="Confetti.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
-    <ClCompile Include="ColorFade.cpp">
+    <ClCompile Include="ColorCascade.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
     <ClCompile Include="Globals.h">
@@ -61,12 +61,24 @@
     <ClCompile Include="TestNumber.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
+    <ClCompile Include="Fire.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorFade.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="StartupSequence.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="RowByRow.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Confetti.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
-    <ClInclude Include="ColorFade.h">
+    <ClInclude Include="ColorCascade.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
     <ClInclude Include="SPIController.h">
@@ -98,6 +110,21 @@
     </ClInclude>
     <ClInclude Include="TestNumber.h">
       <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Fire.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorFade.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="StartupSequence.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="RowByRow.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelMapping.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

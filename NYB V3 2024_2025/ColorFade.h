@@ -1,12 +1,12 @@
-#ifndef COLORFADE_H
-#define COLORFADE_H
+#ifndef ColorFade_H
+#define ColorFade_H
 
 #include "SPIController.h"
 
 // Color fade setup function
 void ColorFade_setup(SPIController& spiController);
 
-// Color fade loop function to cycle through the rainbow
+// Color fade loop function to fade through colors on all LEDs
 void ColorFade_loop(SPIController& spiController, int numLEDs);
 
-#endif // COLORFADE_H
+#endif // ColorFade_H

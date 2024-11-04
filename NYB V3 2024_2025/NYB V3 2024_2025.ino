@@ -1,7 +1,7 @@
 #include "SPIController.h"
 #include "globals.h"
 
-#include "ColorFade.h"
+#include "ColorCascade.h"
 #include "Confetti.h"
 #include "TwinklingStars.h"
 #include "Ripple.h"
@@ -9,6 +9,10 @@
 #include "Breathing.h"
 #include "Meteor.h"
 #include "OneAtATimeConfetti.h"
+#include "Fire.h"
+#include "ColorFade.h"
+#include "StartupSequence.h"
+#include "RowByRow.h"
 
 uint8_t currentMode = 255;
 uint8_t lastMode = 255;
@@ -70,7 +74,7 @@ void setupPattern()
         Confetti_setup(spiController);
         break;
     case 1:
-        ColorFade_setup(spiController);
+        ColorCascade_setup(spiController);
         break;
     case 2:
         OneAtATimeConfetti_setup(spiController, NUM_LEDS);
@@ -84,12 +88,29 @@ void setupPattern()
     case 5:
         Sparkle_setup(spiController);
         break;
+    case 6:
+		FireEffect_setup(spiController);
+		break;
     case 7:
         Breathing_setup(spiController);
         break;
     case 8:
         Meteor_setup(spiController);
         break;
+    case 9:
+		ColorFade_setup(spiController);
+		break;
+        /*
+    case 10:
+		StartupSequence_setup(spiController);
+		break;
+        */
+
+        /*
+    case 11:
+		RowByRow_setup(spiController);
+		break;
+        */
     default:
         Breathing_setup(spiController);
         break;
@@ -104,7 +125,7 @@ void loopPattern()
         Confetti_loop(spiController, NUM_LEDS);
         break;
     case 1:
-        ColorFade_loop(spiController, NUM_LEDS);
+        ColorCascade_loop(spiController, NUM_LEDS);
         break;
     case 2:
         OneAtATimeConfetti_loop(spiController, NUM_LEDS);
@@ -118,12 +139,28 @@ void loopPattern()
     case 5:
         Sparkle_loop(spiController, NUM_LEDS);
         break;
+	case 6:
+		FireEffect_loop(spiController, NUM_LEDS);
+		break;
     case 7:
         Breathing_loop(spiController, NUM_LEDS);
         break;
     case 8:
         Meteor_loop(spiController, NUM_LEDS);
         break;
+	case 9:
+		ColorFade_loop(spiController, NUM_LEDS);
+		break;
+        /*
+    case 10:
+		StartupSequence_loop(spiController, NUM_LEDS);
+		break;
+        */
+        /*
+	case 11:
+		RowByRow_loop(spiController);
+		break;
+        */
     case 255:
         Serial.println("Invalid Mode");
         break;

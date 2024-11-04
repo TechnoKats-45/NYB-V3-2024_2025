@@ -2,7 +2,7 @@
 #include "globals.h"  // Include globals file to access MAX_BRIGHTNESS
 #include <Arduino.h>
 
-#define colorFadeDelay 20  // Delay between color fade steps in milliseconds
+#define ColorFadeDelay 20  // Delay between color fade steps in milliseconds
 
 // Color fade setup function
 void ColorFade_setup(SPIController& spiController)
@@ -17,20 +17,23 @@ void ColorFade_loop(SPIController& spiController, int numLEDs)
 
     spiController.sendStartFrame();
 
+    // Set all LEDs to the same color
+    uint8_t red, green, blue;
+    spiController.hsvToRgb(hue, 1.0, 1.0, red, green, blue);
+
     for (int i = 0; i < numLEDs; i++)
     {
-        uint8_t red, green, blue;
-        spiController.hsvToRgb(hue + (float)i / numLEDs, 1.0, 1.0, red, green, blue);
         spiController.sendColor(MAX_BRIGHTNESS, red, green, blue);  // Use MAX_BRIGHTNESS for adjustable brightness
     }
 
     spiController.sendEndFrame(numLEDs);
 
-    hue += 0.01f;  // Increment hue to create the fade effect
+    // Increment hue to change the color gradually
+    hue += 0.01f;  // Adjust this value to control the speed of the color fade
     if (hue >= 1.0f)
     {
         hue -= 1.0f;
     }
 
-    delay(colorFadeDelay);  // Control the speed of the fade
+    delay(ColorFadeDelay);  // Control the speed of the color fade effect
 }
