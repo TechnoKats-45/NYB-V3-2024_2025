@@ -3,12 +3,16 @@
 
 #include <SPI.h>
 
-class SPIController {
+class SPIController 
+{
 public:
     SPIController();
 
     // Function to initialize SPI (call this in setup)
     void begin();
+
+    // Function to reset or end SPI communication (call this when switching modes)
+    void end();
 
     // Function to send start frame
     void sendStartFrame();
@@ -18,6 +22,9 @@ public:
 
     // Function to send color data to one LED (APA102C format includes brightness)
     void sendColor(uint8_t brightness, uint8_t red, uint8_t green, uint8_t blue);
+
+    // Function to clear all LEDs (set them to off)
+    void clear(int numLEDs);
 
     // Function to convert HSV to RGB
     void hsvToRgb(float hue, float sat, float val, uint8_t& red, uint8_t& green, uint8_t& blue);

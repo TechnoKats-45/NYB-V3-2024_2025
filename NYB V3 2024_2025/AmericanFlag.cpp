@@ -3,106 +3,72 @@
 #include "SPIController.h"
 #include "globals.h"
 #include <Arduino.h>
-#include <math.h>
 
-#define LEDDelay 50  // Adjust delay as needed
-#define MAX_BRIGHTNESS 31  // Maximum brightness level for APA102 LEDs
+#define LEDDelay 100  // Delay between lighting each LED in milliseconds
 
+// Row-by-row setup function
 void AmericanFlag_setup(SPIController& spiController)
 {
     spiController.begin();
-    randomSeed(analogRead(0));  // Initialize random number generator
 }
 
+// Row-by-row loop function
 void AmericanFlag_loop(SPIController& spiController)
 {
-    const int totalLEDs = 546;  // Adjust to match your actual LED count
+    // Define the total number of LEDs based on the mapping
+    const int totalLEDs = 546;  // Total number of LEDs (adjust to match your actual LED count)
 
-    // Static variables to maintain state across function calls
-    static unsigned long lastUpdateTime = 0;
-    const unsigned long updateInterval = 50;  // milliseconds
+    // Define and initialize the buffer for RGB data of each LED
+    uint8_t ledBuffer[totalLEDs][3] = { {0, 0, 0} };  // Each entry has [R, G, B], initialized to off
 
-    static float wavePhase = 0.0;
-    const float waveSpeed = 0.05;  // Slower wave effect
+    // Set the first LED (row 0 status LED) to green
+    int statusLED = panelMapping[0][0];
+    ledBuffer[statusLED][0] = 0;   // Red
+    ledBuffer[statusLED][1] = 255; // Green
+    ledBuffer[statusLED][2] = 0;   // Blue
 
-    unsigned long currentTime = millis();
-    if (currentTime - lastUpdateTime >= updateInterval)
+    // Set the first 6 rows to blue
+    for (int row = 0; row < 6; row++)
     {
-        lastUpdateTime = currentTime;
-
-        // Update wave phase
-        wavePhase += waveSpeed;
-        if (wavePhase > 2 * PI)
+        for (int i = 0; i < rowSizes[row]; i++)
         {
-            wavePhase -= 2 * PI;
+            int ledNumber = panelMapping[row][i];
+            ledBuffer[ledNumber][0] = 0;   // Red
+            ledBuffer[ledNumber][1] = 0;   // Green
+            ledBuffer[ledNumber][2] = 255; // Blue
         }
-
-        // Send the start frame
-        spiController.sendStartFrame();
-
-        // Iterate over each row in the panel mapping
-        for (int row = 0; row < totalRows; row++)
-        {
-            int rowLength = rowSizes[row];
-            int stripeIndex = row * 13 / totalRows;  // Map rows to 13 stripes
-            bool isRedStripe = (stripeIndex % 2 == 0);  // Even stripes are red
-
-            // Determine if the row is in the blue area (top 6 rows)
-            int blueAreaRows = 6;  // Top 6 rows
-            bool isInBlueAreaRow = (row < blueAreaRows);
-
-            for (int col = 0; col < rowLength; col++)
-            {
-                int ledNumber = panelMapping[row][col];
-
-                // Ensure ledNumber is within valid range
-                if (ledNumber < 0 || ledNumber >= totalLEDs)
-                {
-                    continue;  // Skip invalid LED numbers
-                }
-
-                uint8_t r = 0, g = 0, b = 0;
-
-                if (isInBlueAreaRow)
-                {
-                    // Entire row is blue
-                    r = 0;
-                    g = 0;
-                    b = 255;  // Blue
-
-                    // Randomly flash white stars (slowed down significantly)
-                    if (random(0, 1000) < 5)  // 0.5% chance to sparkle
-                    {
-                        r = 255;
-                        g = 255;
-                        b = 255;  // White star
-                    }
-                }
-                else
-                {
-                    // Stripes with increased minimum brightness
-                    float brightness = 0.85 + 0.15 * sin(wavePhase + row * 0.3);  // Varies between 0.7 and 1
-
-                    if (isRedStripe)
-                    {
-                        r = 255 * brightness;
-                        g = 0;
-                        b = 0;
-                    }
-                    else
-                    {
-                        r = 255 * brightness;
-                        g = 255 * brightness;
-                        b = 255 * brightness;  // White stripe
-                    }
-                }
-
-                // Send color data for the current LED
-                spiController.sendColor(MAX_BRIGHTNESS, r, g, b);
-            }
-        }
-
-        // Send the end frame
-        spiController.sendEndFrame(totalLEDs);
     }
+
+    // Set the remaining rows with alternating red and white colors in groups of 3 rows, starting from row 7
+    bool isRed = true;  // Start with red
+    for (int row = 7; row < totalRows; row++)
+    {
+        uint8_t red = isRed ? 255 : 255;     // Red component is 255 for both red and white
+        uint8_t green = isRed ? 0 : 255;     // Green component is 0 for red, 255 for white
+        uint8_t blue = isRed ? 0 : 255;      // Blue component is 0 for red, 255 for white
+
+        for (int i = 0; i < rowSizes[row]; i++)
+        {
+            int ledNumber = panelMapping[row][i];
+            ledBuffer[ledNumber][0] = red;   // Red
+            ledBuffer[ledNumber][1] = green; // Green
+            ledBuffer[ledNumber][2] = blue;  // Blue
+        }
+
+        // Toggle color every 3 rows
+        if ((row - 7 + 1) % 3 == 0)
+        {
+            isRed = !isRed;
+        }
+    }
+
+    // Send the entire frame based on the buffer
+    spiController.sendStartFrame();
+    for (int j = 0; j < totalLEDs; j++)
+    {
+        spiController.sendColor(MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
+    }
+    spiController.sendEndFrame(totalLEDs);  // End frame for the entire strip
+
+    delay(LEDDelay);  // Delay before the next frame update (if any)
 }

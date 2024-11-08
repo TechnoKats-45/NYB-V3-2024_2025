@@ -53,3 +53,20 @@ void SPIController::hsvToRgb(float hue, float sat, float val, uint8_t& red, uint
     case 5: red = val * 255; green = p * 255; blue = q * 255; break;
     }
 }
+
+// Function to reset SPI (call this before switching to another mode)
+void SPIController::end() 
+{
+    SPI.end();  // End the SPI communication
+}
+
+void SPIController::clear(int numLEDs) 
+{
+    sendStartFrame();
+    for (int i = 0; i < numLEDs; i++) 
+    {
+        sendColor(0, 0, 0, 0);  // Set all LEDs to off
+    }
+    sendEndFrame(numLEDs);
+}
+

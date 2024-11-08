@@ -1,6 +1,5 @@
 #include "SPIController.h"
 #include "globals.h"
-
 #include "ColorCascade.h"
 #include "Confetti.h"
 #include "TwinklingStars.h"
@@ -33,23 +32,46 @@ void loop()
 {
     static uint8_t uartBuffer[4];
     static uint8_t bytesRead = 0;
+    static unsigned long lastByteTime = 0;  // Time of last byte received
+    const unsigned long timeout = 100;      // Timeout in milliseconds
 
     while (Serial1.available() > 0)
     {
-        uartBuffer[bytesRead++] = Serial1.read();
+        uint8_t byte = Serial1.read();
+        unsigned long currentTime = millis();
+
+        // Reset if timeout occurred
+        if (currentTime - lastByteTime > timeout)
+        {
+            bytesRead = 0;
+        }
+        lastByteTime = currentTime;
+
+        // Check for start byte to re-synchronize if data is misaligned
+        if (bytesRead == 0 && byte != 0xFF)
+        {
+            continue;  // Ignore bytes until the start byte (0xFF) is found
+        }
+
+        // Store the byte in the buffer
+        uartBuffer[bytesRead++] = byte;
 
         if (bytesRead == 4)
         {
-            currentMode = uartBuffer[0];
-            MAX_BRIGHTNESS = uartBuffer[1];
+            // Parse the received data
+            currentMode = uartBuffer[1];       // Mode is now the second byte
+            MAX_BRIGHTNESS = uartBuffer[2];    // Brightness is the third byte
+            config = uartBuffer[3];            // Configuration is the fourth byte
 
-            config = uartBuffer[3];
-            uartBuffer[3] = uartBuffer[3] + 1;  // Increment config to indicate data received
+            // Increment config to indicate data received
+            uartBuffer[3] = uartBuffer[3] + 1;
 
-            Serial1.write(uartBuffer, 4);   // Echoes data to the next panel in the chain
+            // Send feedback to the next panel in the chain
+            Serial1.write(uartBuffer, 4);
 
-            bytesRead = 0;
+            bytesRead = 0;  // Reset bytesRead for the next packet
 
+            // Debugging output to verify data
             Serial.println("---------------------------------");
             Serial.print("Mode: ");
             Serial.println(currentMode);
@@ -57,6 +79,7 @@ void loop()
             Serial.println(MAX_BRIGHTNESS);
             Serial.println("---------------------------------");
 
+            // Update pattern if mode has changed
             if (currentMode != lastMode)
             {
                 lastMode = currentMode;
@@ -64,11 +87,16 @@ void loop()
             }
         }
     }
+
     loopPattern();
 }
 
 void setupPattern()
 {
+    // Reset SPI and clear LEDs when changing modes
+    spiController.clear(NUM_LEDS);
+    spiController.begin();
+
     switch (currentMode)
     {
     case 0:
@@ -90,8 +118,8 @@ void setupPattern()
         Sparkle_setup(spiController);
         break;
     case 6:
-		FireEffect_setup(spiController);
-		break;
+        FireEffect_setup(spiController);
+        break;
     case 7:
         Breathing_setup(spiController);
         break;
@@ -99,19 +127,19 @@ void setupPattern()
         Meteor_setup(spiController);
         break;
     case 9:
-		ColorFade_setup(spiController);
-		break;
+        ColorFade_setup(spiController);
+        break;
         /*
     case 10:
-		StartupSequence_setup(spiController);
-		break;
+        StartupSequence_setup(spiController);
+        break;
         */
     case 11:
-		RowByRow_setup(spiController);
-		break;
+        RowByRow_setup(spiController);
+        break;
     case 12:
-		AmericanFlag_setup(spiController);
-		break;
+        AmericanFlag_setup(spiController);
+        break;
     default:
         Breathing_setup(spiController);
         break;
@@ -140,29 +168,29 @@ void loopPattern()
     case 5:
         Sparkle_loop(spiController, NUM_LEDS);
         break;
-	case 6:
-		FireEffect_loop(spiController, NUM_LEDS);
-		break;
+    case 6:
+        FireEffect_loop(spiController, NUM_LEDS);
+        break;
     case 7:
         Breathing_loop(spiController, NUM_LEDS);
         break;
     case 8:
         Meteor_loop(spiController, NUM_LEDS);
         break;
-	case 9:
-		ColorFade_loop(spiController, NUM_LEDS);
-		break;
+    case 9:
+        ColorFade_loop(spiController, NUM_LEDS);
+        break;
         /*
     case 10:
-		StartupSequence_loop(spiController, NUM_LEDS);
-		break;
+        StartupSequence_loop(spiController, NUM_LEDS);
+        break;
         */
-	case 11:
-		RowByRow_loop(spiController);
-		break;
-	case 12:
-		AmericanFlag_loop(spiController);
-		break;
+    case 11:
+        RowByRow_loop(spiController);
+        break;
+    case 12:
+        AmericanFlag_loop(spiController);
+        break;
     case 255:
         Serial.println("Invalid Mode");
         break;
