@@ -186,7 +186,7 @@ void loopPattern()
         break;
         */
     case 11:
-        RowByRow_loop(spiController);
+        RowByRow_loop(spiController, currentMode);
         break;
     case 12:
         AmericanFlag_loop(spiController);

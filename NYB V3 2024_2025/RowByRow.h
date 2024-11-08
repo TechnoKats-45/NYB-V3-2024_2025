@@ -7,6 +7,7 @@
 void RowByRow_setup(SPIController& spiController);
 
 // Row-by-row loop function to light up rows one at a time
-void RowByRow_loop(SPIController& spiController);
+void RowByRow_loop(SPIController& spiController, uint8_t currentMode);
+
 
 #endif // RowByRow_H
