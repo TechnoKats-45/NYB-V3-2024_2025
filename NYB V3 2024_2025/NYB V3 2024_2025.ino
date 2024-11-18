@@ -13,6 +13,7 @@
 #include "StartupSequence.h"
 #include "RowByRow.h"
 #include "AmericanFlag.h"
+#include "CheckerBoard.h"
 
 uint8_t currentMode = 255;
 uint8_t lastMode = 255;
@@ -121,7 +122,7 @@ void setupPattern()
         FireEffect_setup(spiController);
         break;
     case 7:
-        Breathing_setup(spiController);
+        Checkerboard_setup(spiController);
         break;
     case 8:
         Meteor_setup(spiController);
@@ -172,7 +173,7 @@ void loopPattern()
         FireEffect_loop(spiController, NUM_LEDS);
         break;
     case 7:
-        Breathing_loop(spiController, NUM_LEDS);
+		Checkerboard_loop(spiController);
         break;
     case 8:
         Meteor_loop(spiController, NUM_LEDS);
@@ -193,6 +194,7 @@ void loopPattern()
         break;
     case 255:
         Serial.println("Invalid Mode");
+        Breathing_loop(spiController, NUM_LEDS);
         break;
     default:
         Breathing_loop(spiController, NUM_LEDS);

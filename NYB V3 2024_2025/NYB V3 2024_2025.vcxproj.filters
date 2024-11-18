@@ -70,6 +70,9 @@
     <ClCompile Include="AmericanFlag.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
+    <ClCompile Include="CheckerBoard.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Confetti.h">
@@ -118,6 +121,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AmericanFlag.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckerBoard.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
   </ItemGroup>
