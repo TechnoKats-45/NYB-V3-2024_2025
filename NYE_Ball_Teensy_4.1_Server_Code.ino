@@ -88,13 +88,20 @@ void loop()
         client.println("<button id='btn4' onclick=\"setMode(4)\">Ripple Mode</button><br>");
         client.println("<button id='btn5' onclick=\"setMode(5)\">Sparkle Mode</button><br>");
         client.println("<button id='btn6' onclick=\"setMode(6)\">Fire Effect Mode</button><br>");
-        client.println("<button id='btn7' onclick=\"setMode(7)\">Breathing Mode</button><br>");
-        client.println("<button id='btn8' onclick=\"setMode(8)\">Meteor Mode</button><br>");
+        client.println("<button id='btn7' onclick=\"setMode(7)\">CheckerBoard Mode</button><br>");
+        client.println("<button id='btn8' onclick=\"setMode(8)\">Meteor Mode</button><br>"); 
         client.println("<button id='btn9' onclick=\"setMode(9)\">Color Fade Mode</button><br>");
-        client.println("<button id='btn10' onclick=\"setMode(10)\">Startup Sequence Mode (TEST)</button><br>");
-        client.println("<button id='btn11' onclick=\"setMode(11)\">Row By Row Mode (TEST)</button><br>");
+        client.println("<button id='btn10' onclick=\"setMode(10)\">FireWorks Mode</button><br>");
+        client.println("<button id='btn11' onclick=\"setMode(11)\">Row By Row Mode</button><br>");
         client.println("<button id='btn12' onclick=\"setMode(12)\">American Flag</button><br>");
-
+        client.println("<button id='btn13' onclick=\"setMode(13)\">SnowFall</button><br>");
+        client.println("<button id='btn14' onclick=\"setMode(14)\">WaveEffect</button><br>");
+        client.println("<button id='btn15' onclick=\"setMode(15)\">CountCircle</button><br>");
+        client.println("<button id='btn16' onclick=\"setMode(16)\">HypnoticSpiral</button><br>");
+        client.println("<button id='btn17' onclick=\"setMode(17)\">BouncingWave</button><br>");
+        client.println("<button id='btn18' onclick=\"setMode(18)\">Aurora</button><br>");
+        client.println("<button id='btn19' onclick=\"setMode(19)\">Test19</button><br>");
+        client.println("<button id='btn20' onclick=\"setMode(20)\">Test20</button><br>");
         
         // Brightness slider and adjustment buttons
         client.println("<h3>Adjust Brightness</h3>");
@@ -131,7 +138,7 @@ void loop()
 
         // JavaScript function to highlight selected mode button
         client.println("function highlightButton(mode) {");
-        client.println("  for (let i = 0; i <= 12; i++) {");
+        client.println("  for (let i = 0; i <= 20; i++) {");
         client.println("    document.getElementById('btn' + i).classList.remove('selected');");
         client.println("  }");
         client.println("  document.getElementById('btn' + mode).classList.add('selected');");
