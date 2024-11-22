@@ -1,5 +1,6 @@
 #include <QNEthernet.h>
 #include <Arduino.h>
+#include <TimeLib.h>  // Added for RTC
 using namespace qindesign::network;
 
 #define TX_PIN 21  
@@ -52,62 +53,95 @@ void loop()
 void handleClient()
 {
     EthernetClient client = server.available();
-    if (!client) return;
+    if (client) {
+        Serial.println("New client connected");
+        String requestLine = "";
+        String currentLine = "";
+        bool isRequestLine = true;
+        while (client.connected()) {
+            if (client.available()) {
+                char c = client.read();
+                if (c == '\n') {
+                    if (currentLine.length() == 0) {
+                        // End of headers
+                        break;
+                    }
+                    if (isRequestLine) {
+                        requestLine = currentLine;
+                        isRequestLine = false;
+                    }
+                    currentLine = "";
+                } else if (c != '\r') {
+                    currentLine += c;
+                }
+            }
+        }
 
-    Serial.println("New client connected");
-    String request = client.readStringUntil('\r');
-    client.flush();
+        // Handle specific requests
+        if (requestLine.startsWith("GET /setMode?mode=")) {
+            int modeStart = requestLine.indexOf("mode=") + 5;
+            String modeString = requestLine.substring(modeStart, requestLine.indexOf(' ', modeStart));
+            mode = modeString.toInt();
+            sendUARTData();
+            sendResponse(client, "Mode set to " + String(mode));
+            return;
+        }
+        if (requestLine.startsWith("GET /setBrightness?brightness=")) {
+            int brightnessStart = requestLine.indexOf("brightness=") + 11;
+            String brightnessString = requestLine.substring(brightnessStart, requestLine.indexOf(' ', brightnessStart));
+            brightness = brightnessString.toInt();
+            sendUARTData();
+            sendResponse(client, "Brightness set to " + String(brightness));
+            return;
+        }
+        if (requestLine.startsWith("GET /toggleLEDOutput")) {
+            ledOutputEnabled = !ledOutputEnabled;
+            sendUARTData();
+            sendResponse(client, ledOutputEnabled ? "Enabled" : "Disabled");
+            return;
+        }
+        if (requestLine.startsWith("GET /toggleRandomMode")) {
+            randomModeEnabled = !randomModeEnabled;
+            lastModeChangeTime = millis(); // Reset timer when toggling random mode
+            sendResponse(client, randomModeEnabled ? "Enabled" : "Disabled");
+            return;
+        }
+        if (requestLine.startsWith("GET /setInterval?interval=")) {
+            int intervalStart = requestLine.indexOf("interval=") + 9;
+            String intervalString = requestLine.substring(intervalStart, requestLine.indexOf(' ', intervalStart));
+            modeChangeInterval = intervalString.toFloat() * 60.0;
+            lastModeChangeTime = millis(); // Reset timer for the new interval
+            sendResponse(client, "Interval set to " + String(modeChangeInterval / 60.0, 2) + " minutes");
+            return;
+        }
+        if (requestLine.startsWith("GET /setTime?time=")) {  // Added for setting time
+            int timeStart = requestLine.indexOf("time=") + 5;
+            String timeString = requestLine.substring(timeStart, requestLine.indexOf(' ', timeStart));
+            unsigned long epochTime = timeString.toInt();
+            setTime(epochTime);
+            sendResponse(client, "Time set to " + String(epochTime));
+            return;
+        }
+        if (requestLine.startsWith("GET /status")) {
+            sendStatus(client);
+            return;
+        }
 
-    // Handle specific requests
-    if (request.indexOf("GET /setMode?mode=") >= 0) {
-        int modeStart = request.indexOf("mode=") + 5;
-        mode = request.substring(modeStart).toInt();
-        sendUARTData();
-        sendResponse(client, "Mode set to " + String(mode));
-        return;
+        // Serve HTML Page
+        serveHTML(client);
     }
-    if (request.indexOf("GET /setBrightness?brightness=") >= 0) {
-        int brightnessStart = request.indexOf("brightness=") + 11;
-        brightness = request.substring(brightnessStart).toInt();
-        sendUARTData();
-        sendResponse(client, "Brightness set to " + String(brightness));
-        return;
-    }
-    if (request.indexOf("GET /toggleLEDOutput") >= 0) {
-        ledOutputEnabled = !ledOutputEnabled;
-        sendUARTData();
-        sendResponse(client, ledOutputEnabled ? "Enabled" : "Disabled");
-        return;
-    }
-    if (request.indexOf("GET /toggleRandomMode") >= 0) {
-        randomModeEnabled = !randomModeEnabled;
-        lastModeChangeTime = millis(); // Reset timer when toggling random mode
-        sendResponse(client, randomModeEnabled ? "Enabled" : "Disabled");
-        return;
-    }
-    if (request.indexOf("GET /setInterval?interval=") >= 0) {
-        int intervalStart = request.indexOf("interval=") + 9;
-        modeChangeInterval = request.substring(intervalStart).toFloat() * 60.0;
-        lastModeChangeTime = millis(); // Reset timer for the new interval
-        sendResponse(client, "Interval set to " + String(modeChangeInterval / 60.0, 2) + " minutes");
-        return;
-    }
-    if (request.indexOf("GET /status") >= 0) {
-        sendStatus(client);
-        return;
-    }
-
-    // Serve HTML Page
-    serveHTML(client);
 }
 
 void sendResponse(EthernetClient &client, const String &message) 
 {
-    client.println("HTTP/1.1 200 OK");
-    client.println("Content-Type: text/plain");
-    client.println("Connection: close");
-    client.println();
-    client.println(message);
+    String response = "HTTP/1.1 200 OK\r\n";
+    response += "Content-Type: text/plain\r\n";
+    response += "Connection: close\r\n";
+    response += "Content-Length: " + String(message.length()) + "\r\n";
+    response += "\r\n";
+    response += message;
+
+    client.print(response);
     delay(1);
     client.stop();
 }
@@ -120,44 +154,48 @@ void sendStatus(EthernetClient &client)
                             ? (modeChangeInterval * 1000 - (millis() - lastModeChangeTime)) / 1000
                             : 0;
     }
-    client.println("HTTP/1.1 200 OK");
-    client.println("Content-Type: application/json");
-    client.println("Connection: close");
-    client.println();
-    client.println("{");
-    client.println("  \"mode\": " + String(mode) + ",");
-    client.println("  \"brightness\": " + String(brightness) + ",");
-    client.println("  \"ledOutputEnabled\": " + String(ledOutputEnabled ? "true" : "false") + ",");
-    client.println("  \"randomModeEnabled\": " + String(randomModeEnabled ? "true" : "false") + ",");
-    client.println("  \"timeRemaining\": " + String(timeRemaining) + ",");
-    client.println("  \"modeChangeInterval\": " + String(modeChangeInterval));  // Added line
-    client.println("}");
+    String jsonResponse = "{";
+    jsonResponse += "\"mode\": " + String(mode) + ",";
+    jsonResponse += "\"brightness\": " + String(brightness) + ",";
+    jsonResponse += "\"ledOutputEnabled\": " + String(ledOutputEnabled ? "true" : "false") + ",";
+    jsonResponse += "\"randomModeEnabled\": " + String(randomModeEnabled ? "true" : "false") + ",";
+    jsonResponse += "\"timeRemaining\": " + String(timeRemaining) + ",";
+    jsonResponse += "\"modeChangeInterval\": " + String(modeChangeInterval) + ",";
+    jsonResponse += "\"currentTime\": " + String(now());
+    jsonResponse += "}";
+
+    String response = "HTTP/1.1 200 OK\r\n";
+    response += "Content-Type: application/json\r\n";
+    response += "Connection: close\r\n";
+    response += "Content-Length: " + String(jsonResponse.length()) + "\r\n";
+    response += "\r\n";
+    response += jsonResponse;
+
+    client.print(response);
     delay(1);
     client.stop();
 }
 
 void serveHTML(EthernetClient &client)
 {
-    client.println("HTTP/1.1 200 OK");
-    client.println("Content-Type: text/html");
-    client.println("Connection: close");
-    client.println();
-    client.println("<!DOCTYPE HTML><html><head><style>");
-    client.println(".enabled { background-color: green; color: white; }");
-    client.println(".disabled { background-color: red; color: white; }");
-    client.println(".selected { background-color: green; color: white; }");
-    client.println("</style></head><body><h1>Teensy Mode Control</h1>");
-    client.println("<p>Current Mode: <span id='currentMode'></span></p>");
-    client.println("<p>Brightness Level: <span id='brightnessValue'></span></p>");
-    client.println("<p>LED Output: <span id='ledOutputState'></span></p>");
-    client.println("<p>Mode Change Interval: <span id='modeInterval'></span></p>");
-    client.println("<p id='timeUntilNextModeChange' style='display:none;'>Time Until Next Mode Change: <span id='timeLeft'></span></p>");
+    String htmlContent = "<!DOCTYPE HTML><html><head><style>";
+    htmlContent += ".enabled { background-color: green; color: white; }";
+    htmlContent += ".disabled { background-color: red; color: white; }";
+    htmlContent += ".selected { background-color: green; color: white; }";
+    htmlContent += "</style></head><body><h1>Teensy Mode Control</h1>";
+    htmlContent += "<p>Current Mode: <span id='currentMode'></span></p>";
+    htmlContent += "<p>Brightness Level: <span id='brightnessValue'></span></p>";
+    htmlContent += "<p>LED Output: <span id='ledOutputState'></span></p>";
+    htmlContent += "<p>Mode Change Interval: <span id='modeInterval'></span></p>";
+    htmlContent += "<p id='timeUntilNextModeChange' style='display:none;'>Time Until Next Mode Change: <span id='timeLeft'></span></p>";
+    htmlContent += "<p>Current Teensy Time: <span id='teensyTime'></span></p>";
+    htmlContent += "<button onclick='syncTime()'>Sync Time</button>";
 
-    client.println("<h3>Set Mode Change Interval</h3>");
-    client.println("<input type='number' id='intervalInput' step='0.1' min='0.1' value='" + String(modeChangeInterval / 60.0, 2) + "'>");
-    client.println("<button onclick='setIntervalTime()'>Set Interval</button>");
+    htmlContent += "<h3>Set Mode Change Interval</h3>";
+    htmlContent += "<input type='number' id='intervalInput' step='0.1' min='0.1' value='" + String(modeChangeInterval / 60.0, 2) + "'>";
+    htmlContent += "<button onclick='setIntervalTime()'>Set Interval</button>";
 
-    client.println("<h3>Select Mode</h3>");
+    htmlContent += "<h3>Select Mode</h3>";
     for (int i = 0; i <= 20; ++i) {
         String modeName;
         switch (i) {
@@ -183,91 +221,102 @@ void serveHTML(EthernetClient &client)
             case 19: modeName = "Test19"; break;
             case 20: modeName = "Test20"; break;
         }
-        client.println("<button id='btn" + String(i) + "' onclick=\"setMode(" + String(i) + ")\">" + modeName + "</button><br>");
+        htmlContent += "<button id='btn" + String(i) + "' onclick=\"setMode(" + String(i) + ")\">" + modeName + "</button><br>";
     }
 
-    client.println("<h3>Adjust Brightness</h3>");
-    client.println("<button onclick='adjustBrightness(-1)'>&#8595;</button>");
-    client.println("<input type='range' min='0' max='31' id='brightnessSlider' oninput='setBrightness(this.value)' />");
-    client.println("<button onclick='adjustBrightness(1)'>&#8593;</button>");
+    htmlContent += "<h3>Adjust Brightness</h3>";
+    htmlContent += "<button onclick='adjustBrightness(-1)'>&#8595;</button>";
+    htmlContent += "<input type='range' min='0' max='31' id='brightnessSlider' oninput='setBrightness(this.value)' />";
+    htmlContent += "<button onclick='adjustBrightness(1)'>&#8593;</button>";
 
-    client.println("<h3>Enable LED Output</h3>");
-    client.println("<button id='ledToggleButton' onclick='toggleLEDOutput()' class='" + String(ledOutputEnabled ? "enabled" : "disabled") + "'>" + String(ledOutputEnabled ? "Disable LED Output" : "Enable LED Output") + "</button>");
+    htmlContent += "<h3>Enable LED Output</h3>";
+    htmlContent += "<button id='ledToggleButton' onclick='toggleLEDOutput()' class='" + String(ledOutputEnabled ? "enabled" : "disabled") + "'>" + String(ledOutputEnabled ? "Disable LED Output" : "Enable LED Output") + "</button>";
 
-    client.println("<h3>Enable Random Mode Switching</h3>");
-    client.println("<button id='randomModeButton' onclick='toggleRandomMode()' class='" + String(randomModeEnabled ? "enabled" : "disabled") + "'>" + String(randomModeEnabled ? "Disable Random Mode" : "Enable Random Mode") + "</button>");
+    htmlContent += "<h3>Enable Random Mode Switching</h3>";
+    htmlContent += "<button id='randomModeButton' onclick='toggleRandomMode()' class='" + String(randomModeEnabled ? "enabled" : "disabled") + "'>" + String(randomModeEnabled ? "Disable Random Mode" : "Enable Random Mode") + "</button>";
 
     // JavaScript Code
-    client.println("<script>");
-    client.println("var timeRemaining = 0;");
-    client.println("var lastUpdateTime = Date.now();");
-    client.println("var randomModeEnabled = false;");
+    htmlContent += "<script>";
+    htmlContent += "var timeRemaining = 0;";
+    htmlContent += "var lastUpdateTime = Date.now();";
+    htmlContent += "var randomModeEnabled = false;";
 
-    client.println("function updateStatus() {");
-    client.println("  fetch('/status').then(response => response.json()).then(data => {");
-    client.println("    document.getElementById('currentMode').innerText = data.mode;");
-    client.println("    document.getElementById('brightnessValue').innerText = data.brightness;");
-    client.println("    document.getElementById('ledOutputState').innerText = data.ledOutputEnabled ? 'Enabled' : 'Disabled';");
-    client.println("    document.getElementById('modeInterval').innerText = (data.modeChangeInterval / 60).toFixed(2) + ' minutes';");
-    client.println("    timeRemaining = data.timeRemaining;");
-    client.println("    lastUpdateTime = Date.now();");
-    client.println("    randomModeEnabled = data.randomModeEnabled;");
-    client.println("    document.querySelectorAll('button[id^=btn]').forEach(btn => btn.classList.remove('selected'));");
-    client.println("    document.getElementById('btn' + data.mode).classList.add('selected');");
-    client.println("    document.getElementById('ledToggleButton').className = data.ledOutputEnabled ? 'enabled' : 'disabled';");
-    client.println("    document.getElementById('ledToggleButton').innerText = data.ledOutputEnabled ? 'Disable LED Output' : 'Enable LED Output';");
-    client.println("    document.getElementById('randomModeButton').className = data.randomModeEnabled ? 'enabled' : 'disabled';");
-    client.println("    document.getElementById('randomModeButton').innerText = data.randomModeEnabled ? 'Disable Random Mode' : 'Enable Random Mode';");
+    htmlContent += "function updateStatus() {";
+    htmlContent += "  fetch('/status').then(response => response.json()).then(data => {";
+    htmlContent += "    document.getElementById('currentMode').innerText = data.mode;";
+    htmlContent += "    document.getElementById('brightnessValue').innerText = data.brightness;";
+    htmlContent += "    document.getElementById('ledOutputState').innerText = data.ledOutputEnabled ? 'Enabled' : 'Disabled';";
+    htmlContent += "    document.getElementById('modeInterval').innerText = (data.modeChangeInterval / 60).toFixed(2) + ' minutes';";
+    htmlContent += "    timeRemaining = data.timeRemaining;";
+    htmlContent += "    lastUpdateTime = Date.now();";
+    htmlContent += "    randomModeEnabled = data.randomModeEnabled;";
+    htmlContent += "    document.querySelectorAll('button[id^=btn]').forEach(btn => btn.classList.remove('selected'));";
+    htmlContent += "    document.getElementById('btn' + data.mode).classList.add('selected');";
+    htmlContent += "    document.getElementById('ledToggleButton').className = data.ledOutputEnabled ? 'enabled' : 'disabled';";
+    htmlContent += "    document.getElementById('ledToggleButton').innerText = data.ledOutputEnabled ? 'Disable LED Output' : 'Enable LED Output';";
+    htmlContent += "    document.getElementById('randomModeButton').className = data.randomModeEnabled ? 'enabled' : 'disabled';";
+    htmlContent += "    document.getElementById('randomModeButton').innerText = data.randomModeEnabled ? 'Disable Random Mode' : 'Enable Random Mode';";
+    htmlContent += "    var teensyTime = new Date(data.currentTime * 1000);";
+    htmlContent += "    document.getElementById('teensyTime').innerText = teensyTime.toLocaleString();";
 
     // Show or hide the countdown timer
-    client.println("    if (randomModeEnabled) {");
-    client.println("      document.getElementById('timeUntilNextModeChange').style.display = 'block';");
-    client.println("    } else {");
-    client.println("      document.getElementById('timeUntilNextModeChange').style.display = 'none';");
-    client.println("      document.getElementById('timeLeft').innerText = '';");
-    client.println("    }");
-    client.println("  });");
-    client.println("}");
+    htmlContent += "    if (randomModeEnabled) {";
+    htmlContent += "      document.getElementById('timeUntilNextModeChange').style.display = 'block';";
+    htmlContent += "    } else {";
+    htmlContent += "      document.getElementById('timeUntilNextModeChange').style.display = 'none';";
+    htmlContent += "      document.getElementById('timeLeft').innerText = '';";
+    htmlContent += "    }";
+    htmlContent += "  });";
+    htmlContent += "}";
 
-    client.println("// Update status every 1 second");
-    client.println("setInterval(updateStatus, 1000);");
+    htmlContent += "setInterval(updateStatus, 1000);";
+    htmlContent += "updateStatus();";
 
-    client.println("// Initial call to updateStatus");
-    client.println("updateStatus();");
+    htmlContent += "setInterval(function() {";
+    htmlContent += "  if (randomModeEnabled) {";
+    htmlContent += "    var elapsed = (Date.now() - lastUpdateTime) / 1000;";
+    htmlContent += "    var displayTime = Math.max(0, timeRemaining - elapsed);";
+    htmlContent += "    document.getElementById('timeLeft').innerText = Math.floor(displayTime) + ' seconds';";
+    htmlContent += "  } else {";
+    htmlContent += "    document.getElementById('timeLeft').innerText = '';";
+    htmlContent += "  }";
+    htmlContent += "}, 1000);";
 
-    client.println("// Update the countdown timer every second");
-    client.println("setInterval(function() {");
-    client.println("  if (randomModeEnabled) {");
-    client.println("    var elapsed = (Date.now() - lastUpdateTime) / 1000;");
-    client.println("    var displayTime = Math.max(0, timeRemaining - elapsed);");
-    client.println("    document.getElementById('timeLeft').innerText = Math.floor(displayTime) + ' seconds';");
-    client.println("  } else {");
-    client.println("    document.getElementById('timeLeft').innerText = '';");
-    client.println("  }");
-    client.println("}, 1000);");
+    htmlContent += "function setMode(m) {";
+    htmlContent += "  fetch('/setMode?mode=' + m).then(() => updateStatus());";
+    htmlContent += "}";
+    htmlContent += "function setIntervalTime() {";
+    htmlContent += "  let interval = document.getElementById('intervalInput').value;";
+    htmlContent += "  fetch('/setInterval?interval=' + interval).then(() => updateStatus());";
+    htmlContent += "}";
+    htmlContent += "function setBrightness(b) {";
+    htmlContent += "  fetch('/setBrightness?brightness=' + b).then(() => updateStatus());";
+    htmlContent += "}";
+    htmlContent += "function adjustBrightness(change) {";
+    htmlContent += "  let slider = document.getElementById('brightnessSlider');";
+    htmlContent += "  slider.value = parseInt(slider.value) + change;";
+    htmlContent += "  setBrightness(slider.value);";
+    htmlContent += "}";
+    htmlContent += "function toggleLEDOutput() {";
+    htmlContent += "  fetch('/toggleLEDOutput').then(() => updateStatus());";
+    htmlContent += "}";
+    htmlContent += "function toggleRandomMode() {";
+    htmlContent += "  fetch('/toggleRandomMode').then(() => updateStatus());";
+    htmlContent += "}";
+    htmlContent += "function syncTime() {";
+    htmlContent += "  var currentTime = Math.floor(Date.now() / 1000);";
+    htmlContent += "  fetch('/setTime?time=' + currentTime).then(() => updateStatus());";
+    htmlContent += "}";
+    htmlContent += "</script></body></html>";
 
-    client.println("function setMode(m) {");
-    client.println("  fetch('/setMode?mode=' + m).then(() => updateStatus());");
-    client.println("}");
-    client.println("function setIntervalTime() {");
-    client.println("  let interval = document.getElementById('intervalInput').value;");
-    client.println("  fetch('/setInterval?interval=' + interval).then(() => updateStatus());");
-    client.println("}");
-    client.println("function setBrightness(b) {");
-    client.println("  fetch('/setBrightness?brightness=' + b).then(() => updateStatus());");
-    client.println("}");
-    client.println("function adjustBrightness(change) {");
-    client.println("  let slider = document.getElementById('brightnessSlider');");
-    client.println("  slider.value = parseInt(slider.value) + change;");
-    client.println("  setBrightness(slider.value);");
-    client.println("}");
-    client.println("function toggleLEDOutput() {");
-    client.println("  fetch('/toggleLEDOutput').then(() => updateStatus());");
-    client.println("}");
-    client.println("function toggleRandomMode() {");
-    client.println("  fetch('/toggleRandomMode').then(() => updateStatus());");
-    client.println("}");
-    client.println("</script></body></html>");
+    String response = "HTTP/1.1 200 OK\r\n";
+    response += "Content-Type: text/html\r\n";
+    response += "Connection: close\r\n";
+    response += "Content-Length: " + String(htmlContent.length()) + "\r\n";
+    response += "\r\n";
+    response += htmlContent;
+
+    client.print(response);
     delay(1);
     client.stop();
 }
@@ -291,5 +340,3 @@ void sendUARTData()
     delay(50);
     isSendingData = false;
 }
-
-///////////////////////////////////////////////////
