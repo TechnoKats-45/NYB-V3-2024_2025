@@ -21,7 +21,7 @@
 #include "HypnoticSpiral.h"
 #include "BouncingWave.h"
 #include "Aurora.h"
-
+#include "Countdown.h"
 
 uint8_t currentMode = 255;
 uint8_t lastMode = 255;
@@ -166,10 +166,9 @@ void setupPattern()
 		AuroraEffect_setup(spiController);
 		break;
     case 253:
-        // Do nothing   // Countdown
         break;
-    case 254:
-        // Do nothing   // Startup
+	case 254:
+		CountdownEffect_setup(spiController);
         break;
     default:
         Breathing_setup(spiController);
@@ -239,11 +238,11 @@ void loopPattern()
 		AuroraEffect_loop(spiController);
 		break;
     case 253:
-		// Do nothing
+		//StartupSequence(spiController);
 		break;
-    case 254:
-		// Do nothing
-		break;    
+	case 254:
+		CountdownEffect_loop(spiController);
+        break;
     case 255:
         Serial.println("Invalid Mode");
         Breathing_loop(spiController, NUM_LEDS);
