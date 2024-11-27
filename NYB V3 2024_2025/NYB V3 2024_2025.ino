@@ -14,6 +14,14 @@
 #include "RowByRow.h"
 #include "AmericanFlag.h"
 #include "CheckerBoard.h"
+#include "Fireworks.h"
+#include "Snowfall.h"
+#include "WaveEffect.h"
+#include "CountdownCircle.h"
+#include "HypnoticSpiral.h"
+#include "BouncingWave.h"
+#include "Aurora.h"
+
 
 uint8_t currentMode = 255;
 uint8_t lastMode = 255;
@@ -130,16 +138,38 @@ void setupPattern()
     case 9:
         ColorFade_setup(spiController);
         break;
-        /*
     case 10:
-        StartupSequence_setup(spiController);
+        Fireworks_setup(spiController);
         break;
-        */
     case 11:
         RowByRow_setup(spiController);
         break;
     case 12:
         AmericanFlag_setup(spiController);
+        break;
+    case 13:
+		Snowfall_setup(spiController);
+		break;
+    case 14:
+        WaveEffect_setup(spiController);
+        break;
+    case 15:
+        CountdownCircle_setup(spiController);
+        break;
+    case 16:
+        HypnoticSpiral_setup(spiController);
+        break;
+    case 17:
+		BouncingWaveEffect_setup(spiController);
+		break;
+    case 18:
+		AuroraEffect_setup(spiController);
+		break;
+    case 253:
+        // Do nothing   // Countdown
+        break;
+    case 254:
+        // Do nothing   // Startup
         break;
     default:
         Breathing_setup(spiController);
@@ -181,17 +211,39 @@ void loopPattern()
     case 9:
         ColorFade_loop(spiController, NUM_LEDS);
         break;
-        /*
     case 10:
-        StartupSequence_loop(spiController, NUM_LEDS);
+        Fireworks_loop(spiController);
         break;
-        */
     case 11:
         RowByRow_loop(spiController, currentMode);
         break;
     case 12:
         AmericanFlag_loop(spiController);
         break;
+	case 13:
+		Snowfall_loop(spiController);
+		break;
+    case 14:
+        WaveEffect_loop(spiController);
+        break;
+    case 15:
+        CountdownCircle_loop(spiController);
+        break;
+    case 16:
+        HypnoticSpiral_loop(spiController);
+        break;
+	case 17:
+		BouncingWaveEffect_loop(spiController);
+		break;
+    case 18:
+		AuroraEffect_loop(spiController);
+		break;
+    case 253:
+		// Do nothing
+		break;
+    case 254:
+		// Do nothing
+		break;    
     case 255:
         Serial.println("Invalid Mode");
         Breathing_loop(spiController, NUM_LEDS);

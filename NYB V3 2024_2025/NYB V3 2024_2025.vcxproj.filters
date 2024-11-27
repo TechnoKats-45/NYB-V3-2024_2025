@@ -73,6 +73,36 @@
     <ClCompile Include="CheckerBoard.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
+    <ClCompile Include="Fireworks.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="Snowfall.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="Snowfall.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveEffect.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveEffect.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="CountdownCircle.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="CountdownCircle.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="HypnoticSpiral.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="BouncingWave.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="Aurora.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Confetti.h">
@@ -124,6 +154,18 @@
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
     <ClInclude Include="CheckerBoard.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Fireworks.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="HypnoticSpiral.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="BouncingWave.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Aurora.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
   </ItemGroup>
