@@ -224,6 +224,9 @@ void serveHTML(EthernetClient &client)
         htmlContent += "<button id='btn" + String(i) + "' onclick=\"setMode(" + String(i) + ")\">" + modeName + "</button><br>";
     }
 
+    // Add the Countdown Mode button
+    htmlContent += "<button id='btn254' onclick=\"setMode(254)\">Countdown Mode</button><br>";
+
     htmlContent += "<h3>Adjust Brightness</h3>";
     htmlContent += "<button onclick='adjustBrightness(-1)'>&#8595;</button>";
     htmlContent += "<input type='range' min='0' max='31' id='brightnessSlider' oninput='setBrightness(this.value)' />";
