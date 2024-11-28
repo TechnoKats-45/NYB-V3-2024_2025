@@ -82,6 +82,13 @@ void handleClient()
             int modeStart = requestLine.indexOf("mode=") + 5;
             String modeString = requestLine.substring(modeStart, requestLine.indexOf(' ', modeStart));
             mode = modeString.toInt();
+
+            // Disable random mode when mode 254 is selected
+            if (mode == 254) {
+              randomModeEnabled = false;
+              lastModeChangeTime = millis(); // Reset the timer to prevent unexpected mode changes
+            }
+
             sendUARTData();
             sendResponse(client, "Mode set to " + String(mode));
             return;
