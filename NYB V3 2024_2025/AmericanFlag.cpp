@@ -5,8 +5,8 @@
 #include <Arduino.h>
 
 #define LEDDelay 100         // Delay between lighting each LED in milliseconds
-#define StarFlashDuration 200 // Duration in milliseconds for each star flash (increased duration)
-#define NumStars 2           // Reduced number of stars flashing at a time
+#define StarFlashDuration 200 // Duration in milliseconds for each star flash
+#define NumStars 2           // Number of stars flashing at a time
 
 // Row-by-row setup function
 void AmericanFlag_setup(SPIController& spiController)
@@ -14,15 +14,21 @@ void AmericanFlag_setup(SPIController& spiController)
     spiController.begin();
 }
 
-// Helper function to flash random white stars in the blue area
+// Helper function to flash random white stars in the blue areas
 void flashStars(uint8_t ledBuffer[][3], SPIController& spiController)
 {
-    // Select random LEDs in the first 6 rows (blue area) to flash as stars
+    // Flash random white stars in all blue areas: 1-20, 175-200, 321-346
+    int blueRanges[][2] = { {1, 20}, {175, 200}, {321, 346} };
+
     for (int star = 0; star < NumStars; star++)
     {
-        int randomRow = random(0, 6);  // Choose a random row within the blue area
-        int randomLEDIndex = random(0, rowSizes[randomRow]);  // Choose a random LED in that row
-        int ledNumber = panelMapping[randomRow][randomLEDIndex];
+        // Select a random blue range
+        int rangeIndex = random(0, sizeof(blueRanges) / sizeof(blueRanges[0]));
+        int rangeStart = blueRanges[rangeIndex][0];
+        int rangeEnd = blueRanges[rangeIndex][1];
+
+        // Choose a random LED within the selected range
+        int ledNumber = random(rangeStart, rangeEnd + 1);
 
         // Temporarily set the LED to white (flash effect)
         ledBuffer[ledNumber][0] = 255;  // Red
@@ -40,15 +46,17 @@ void flashStars(uint8_t ledBuffer[][3], SPIController& spiController)
 
     delay(StarFlashDuration);  // Hold the star flash longer
 
-    // Reset stars to blue after flash duration
-    for (int row = 0; row < 6; row++)
+    // Reset the blue areas after flash duration
+    for (int i = 0; i < sizeof(blueRanges) / sizeof(blueRanges[0]); i++)
     {
-        for (int i = 0; i < rowSizes[row]; i++)
+        int rangeStart = blueRanges[i][0];
+        int rangeEnd = blueRanges[i][1];
+
+        for (int j = rangeStart; j <= rangeEnd; j++)
         {
-            int ledNumber = panelMapping[row][i];
-            ledBuffer[ledNumber][0] = 0;   // Red
-            ledBuffer[ledNumber][1] = 0;   // Green
-            ledBuffer[ledNumber][2] = 255; // Blue
+            ledBuffer[j][0] = 0;   // Red
+            ledBuffer[j][1] = 0;   // Green
+            ledBuffer[j][2] = 255; // Blue
         }
     }
 }
@@ -72,38 +80,49 @@ void AmericanFlag_loop(SPIController& spiController)
     ledBuffer[statusLED][1] = 255; // Green
     ledBuffer[statusLED][2] = 0;   // Blue
 
-    // Set the first 6 rows to blue
-    for (int row = 1; row < 7; row++)
+    // Set blue areas: 1-20, 175-200, 321-346
+    int blueRanges[][2] = { {1, 20}, {175, 200}, {321, 346} };
+    for (int i = 0; i < sizeof(blueRanges) / sizeof(blueRanges[0]); i++)
     {
-        for (int i = 0; i < rowSizes[row]; i++)
+        int rangeStart = blueRanges[i][0];
+        int rangeEnd = blueRanges[i][1];
+
+        for (int j = rangeStart; j <= rangeEnd; j++)
         {
-            int ledNumber = panelMapping[row][i];
-            ledBuffer[ledNumber][0] = 0;   // Red
-            ledBuffer[ledNumber][1] = 0;   // Green
-            ledBuffer[ledNumber][2] = 255; // Blue
+            ledBuffer[j][0] = 0;   // Red
+            ledBuffer[j][1] = 0;   // Green
+            ledBuffer[j][2] = 255; // Blue
         }
     }
 
-    // Set the remaining rows with alternating red and white colors in groups of 3 rows, starting from row 7
-    bool isRed = true;  // Start with red
-    for (int row = 7; row < totalRows; row++)
+    // Set the remaining LEDs with alternating red and white colors
+    for (int i = 0; i < NUM_LEDS; i++)
     {
-        uint8_t red = isRed ? 255 : 255;     // Red component is 255 for both red and white
-        uint8_t green = isRed ? 0 : 255;     // Green component is 0 for red, 255 for white
-        uint8_t blue = isRed ? 0 : 255;      // Blue component is 0 for red, 255 for white
-
-        for (int i = 0; i < rowSizes[row]; i++)
+        // Skip LEDs in blue ranges
+        bool isBlue = false;
+        for (int j = 0; j < sizeof(blueRanges) / sizeof(blueRanges[0]); j++)
         {
-            int ledNumber = panelMapping[row][i];
-            ledBuffer[ledNumber][0] = red;   // Red
-            ledBuffer[ledNumber][1] = green; // Green
-            ledBuffer[ledNumber][2] = blue;  // Blue
+            if (i >= blueRanges[j][0] && i <= blueRanges[j][1])
+            {
+                isBlue = true;
+                break;
+            }
         }
+        if (isBlue)
+            continue;
 
-        // Toggle color every 3 rows
-        if ((row - 7 + 1) % 3 == 0)
+        // Alternating red and white stripes
+        if ((i / 3) % 2 == 0)
         {
-            isRed = !isRed;
+            ledBuffer[i][0] = 255;  // Red
+            ledBuffer[i][1] = 0;    // Green
+            ledBuffer[i][2] = 0;    // Blue
+        }
+        else
+        {
+            ledBuffer[i][0] = 255;  // Red
+            ledBuffer[i][1] = 255;  // Green
+            ledBuffer[i][2] = 255;  // Blue
         }
     }
 
@@ -117,6 +136,6 @@ void AmericanFlag_loop(SPIController& spiController)
 
     delay(LEDDelay);  // Delay before the next frame update
 
-    // Flash stars in the blue area with fewer stars and a longer flash duration
+    // Flash stars in the blue area
     flashStars(ledBuffer, spiController);
 }

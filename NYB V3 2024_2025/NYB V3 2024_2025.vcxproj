@@ -87,6 +87,7 @@
     <ClCompile Include="CountdownCircle.h" />
     <ClCompile Include="Fire.cpp" />
     <ClCompile Include="Fireworks.cpp" />
+    <ClCompile Include="GalaxySwirl.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="Globals.h" />
     <ClCompile Include="HypnoticSpiral.cpp" />
@@ -119,6 +120,7 @@
     <ClInclude Include="Countdown.h" />
     <ClInclude Include="Fire.h" />
     <ClInclude Include="Fireworks.h" />
+    <ClInclude Include="GalaxySwirl.h" />
     <ClInclude Include="HypnoticSpiral.h" />
     <ClInclude Include="PanelMapping.h" />
     <ClInclude Include="Meteor.h" />

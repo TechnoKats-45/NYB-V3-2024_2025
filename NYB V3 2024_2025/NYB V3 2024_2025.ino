@@ -22,6 +22,7 @@
 #include "BouncingWave.h"
 #include "Aurora.h"
 #include "Countdown.h"
+#include "GalaxySwirl.h"
 
 uint8_t currentMode = 255;
 uint8_t lastMode = 255;
@@ -165,6 +166,9 @@ void setupPattern()
     case 18:
 		AuroraEffect_setup(spiController);
 		break;
+    case 19:
+		GalaxySwirl_setup(spiController);
+        break;
     case 253:
         break;
 	case 254:
@@ -236,6 +240,9 @@ void loopPattern()
 		break;
     case 18:
 		AuroraEffect_loop(spiController);
+		break;
+    case 19:
+		GalaxySwirl_loop(spiController);
 		break;
     case 253:
 		//StartupSequence(spiController);

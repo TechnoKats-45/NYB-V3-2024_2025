@@ -103,6 +103,12 @@
     <ClCompile Include="Aurora.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
+    <ClCompile Include="Countdown.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="GalaxySwirl.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Confetti.h">
@@ -166,6 +172,12 @@
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
     <ClInclude Include="Aurora.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Countdown.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="GalaxySwirl.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
   </ItemGroup>
