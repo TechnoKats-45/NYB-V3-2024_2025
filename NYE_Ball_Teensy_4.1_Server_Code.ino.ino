@@ -219,14 +219,14 @@ void serveHTML(EthernetClient &client)
             case 10: modeName = "FireWorks Mode"; break;
             case 11: modeName = "Row By Row Mode"; break;
             case 12: modeName = "American Flag"; break;
-            case 13: modeName = "SnowFall"; break;
-            case 14: modeName = "WaveEffect"; break;
-            case 15: modeName = "CountCircle"; break;
-            case 16: modeName = "HypnoticSpiral"; break;
-            case 17: modeName = "BouncingWave"; break;
+            case 13: modeName = "Snow Fall"; break;
+            case 14: modeName = "Wave Effect"; break;
+            case 15: modeName = "Countdown Circle"; break;
+            case 16: modeName = "Hypnotic Spiral"; break;
+            case 17: modeName = "Bouncing Wave"; break;
             case 18: modeName = "Aurora"; break;
-            case 19: modeName = "Test19"; break;
-            case 20: modeName = "Test20"; break;
+            case 19: modeName = "GalaxySwirl"; break;
+            case 20: modeName = "Tidal Wave"; break;
         }
         htmlContent += "<button id='btn" + String(i) + "' onclick=\"setMode(" + String(i) + ")\">" + modeName + "</button><br>";
     }
