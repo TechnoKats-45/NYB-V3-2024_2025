@@ -23,6 +23,7 @@
 #include "Aurora.h"
 #include "Countdown.h"
 #include "GalaxySwirl.h"
+#include "TidalWave.h"
 
 uint8_t currentMode = 255;
 uint8_t lastMode = 255;
@@ -169,6 +170,9 @@ void setupPattern()
     case 19:
 		GalaxySwirl_setup(spiController);
         break;
+    case 20:
+		TidalWave_setup(spiController);
+		break;
     case 253:
         break;
 	case 254:
@@ -243,6 +247,9 @@ void loopPattern()
 		break;
     case 19:
 		GalaxySwirl_loop(spiController);
+		break;
+    case 20:
+		TidalWave_loop(spiController);
 		break;
     case 253:
 		//StartupSequence(spiController);

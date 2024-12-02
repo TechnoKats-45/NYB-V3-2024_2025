@@ -104,6 +104,7 @@
     <ClCompile Include="Sparkle.cpp" />
     <ClCompile Include="SPIController.cpp" />
     <ClCompile Include="StartupSequence.cpp" />
+    <ClCompile Include="TidalWave.cpp" />
     <ClCompile Include="TwinklingStars.cpp" />
     <ClCompile Include="WaveEffect.cpp" />
     <ClCompile Include="WaveEffect.h" />
@@ -130,6 +131,7 @@
     <ClInclude Include="Sparkle.h" />
     <ClInclude Include="SPIController.h" />
     <ClInclude Include="StartupSequence.h" />
+    <ClInclude Include="TidalWave.h" />
     <ClInclude Include="TwinklingStars.h" />
     <ClInclude Include="__vm\.NYB V3 2024_2025.vsarduino.h" />
   </ItemGroup>
