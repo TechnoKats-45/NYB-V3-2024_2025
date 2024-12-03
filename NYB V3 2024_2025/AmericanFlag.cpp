@@ -18,7 +18,7 @@ void AmericanFlag_setup(SPIController& spiController)
 void flashStars(uint8_t ledBuffer[][3], SPIController& spiController)
 {
     // Flash random white stars in all blue areas: 1-20, 175-200, 321-346
-    int blueRanges[][2] = { {1, 20}, {175, 200}, {321, 346} };
+    int blueRanges[][2] = { {1, 26}, {175, 200}, {321, 346} };
 
     for (int star = 0; star < NumStars; star++)
     {
