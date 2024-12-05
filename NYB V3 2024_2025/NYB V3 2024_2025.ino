@@ -24,6 +24,11 @@
 #include "Countdown.h"
 #include "GalaxySwirl.h"
 #include "TidalWave.h"
+#include "LaserSweep.h"
+#include "SpectrumBars.h"
+#include "MosaicMorph.h"
+#include "NeonStripes.h"
+#include "EchoingCircles.h"
 
 uint8_t currentMode = 255;
 uint8_t lastMode = 255;
@@ -173,8 +178,21 @@ void setupPattern()
     case 20:
 		TidalWave_setup(spiController);
 		break;
-    case 253:
-        break;
+    case 21:
+		LaserSweep_setup(spiController);
+		break;
+    case 22:
+		SpectrumBars_setup(spiController);
+		break;
+    case 23:
+		MosaicMorph_setup(spiController);
+		break;
+    case 24:
+		NeonStripes_setup(spiController);
+		break;
+    case 25:
+		EchoingCircles_setup(spiController);
+		break;
 	case 254:
 		CountdownEffect_setup(spiController);
         break;
@@ -251,8 +269,20 @@ void loopPattern()
     case 20:
 		TidalWave_loop(spiController);
 		break;
-    case 253:
-		//StartupSequence(spiController);
+    case 21:
+		LaserSweep_loop(spiController);
+		break;
+    case 22:
+		SpectrumBars_loop(spiController);
+		break;
+    case 23:
+		MosaicMorph_loop(spiController);
+		break;
+    case 24:
+		NeonStripes_loop(spiController);
+		break;
+    case 25:
+		EchoingCircles_loop(spiController);
 		break;
 	case 254:
 		CountdownEffect_loop(spiController);
