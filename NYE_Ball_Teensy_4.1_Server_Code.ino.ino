@@ -23,16 +23,16 @@ struct Mode
 const int NUM_MODES = 10; // Adjust based on the number of modes
 Mode modes[NUM_MODES] = 
 {
-    {1, "Favorite 1"},
-    {2, "Favorite 2"},
-    {3, "Favorite 3"},
-    {4, "Favorite 4"},
-    {5, "Favorite 5"},
-    {6, "Favorite 6"},
-    {7, "Favorite 7"},
-    {8, "Favorite 8"},
-    {9, "Favorite 9"},
-    {10, "Favorite 10"}
+    {12, "Favorite 1"},
+    {18, "Favorite 2"},
+    {19, "Favorite 3"},
+    {20, "Favorite 4"},
+    {21, "Favorite 5"},
+    {22, "Favorite 6"},
+    {23, "Favorite 7"},
+    {24, "Favorite 8"},
+    {25, "Favorite 9"},
+    {26, "Favorite 10"}
 };
 
 EthernetServer server(80);
@@ -349,7 +349,7 @@ void serveHTML(EthernetClient &client)
 
 void switchToRandomMode()
 {
-    mode = random(0, 21); // Random mode between 0 and 20
+    mode = random(0, 25); // Random mode between 0 and 20 // TODO - UPDATE THIS ///////////////////////////////////////////////////////////////////////////////
     sendUARTData();
     Serial.println("Switched to random mode: " + String(mode));
 }
