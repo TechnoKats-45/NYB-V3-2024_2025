@@ -1,4 +1,4 @@
-// 12-3-24
+// Updated Code
 #include <QNEthernet.h>
 #include <Arduino.h>
 #include <TimeLib.h>  // Added for RTC
@@ -140,6 +140,11 @@ void handleClient()
             lastModeChangeTime = millis(); // Reset timer when toggling random mode
             sendResponse(client, randomModeEnabled ? "Enabled" : "Disabled");
         }
+        else if (requestLine.startsWith("GET /skipRandomMode")) {
+            switchToRandomMode();
+            lastModeChangeTime = millis(); // Reset the timer
+            sendResponse(client, "Skipped to new random mode");
+        }
         else if (requestLine.startsWith("GET /setInterval?interval=")) {
             int intervalStart = requestLine.indexOf("interval=") + 9;
             String intervalString = requestLine.substring(intervalStart, requestLine.indexOf(' ', intervalStart));
@@ -231,13 +236,11 @@ void serveHTML(EthernetClient &client)
     htmlContent += "<h3>Select Mode</h3>";
     for (int i = 0; i < NUM_MODES; ++i) 
     {
-      htmlContent += "<button id='btn" + String(modes[i].number) + "' onclick=\"setMode(" + String(modes[i].number) + ")\">" + modes[i].name + "</button><br>";
+        htmlContent += "<button id='btn" + String(modes[i].number) + "' onclick=\"setMode(" + String(modes[i].number) + ")\">" + modes[i].name + "</button><br>";
     }
     
     // Add the Countdown Mode button
     htmlContent += "<br><button id='btn254' onclick=\"setMode(254)\">Countdown Mode</button><br>";
-
-    // Add the Skip Mode button
 
     htmlContent += "<h3>Adjust Brightness</h3>";
     htmlContent += "<button onclick='adjustBrightness(-1)'>&#8595;</button>";
@@ -249,6 +252,9 @@ void serveHTML(EthernetClient &client)
 
     htmlContent += "<h3>Enable Random Mode Switching</h3>";
     htmlContent += "<button id='randomModeButton' onclick='toggleRandomMode()' class='" + String(randomModeEnabled ? "enabled" : "disabled") + "'>" + String(randomModeEnabled ? "Disable Random Mode" : "Enable Random Mode") + "</button>";
+    
+    // Add the Skip Mode button
+    htmlContent += "<button id='skipModeButton' onclick='skipRandomMode()' style='display:none;'>Skip Mode</button>";
 
     // JavaScript Code
     htmlContent += "<script>";
@@ -274,11 +280,13 @@ void serveHTML(EthernetClient &client)
     htmlContent += "    var teensyTime = new Date(data.currentTime * 1000);";
     htmlContent += "    document.getElementById('teensyTime').innerText = teensyTime.toLocaleString();";
 
-    // Show or hide the countdown timer
+    // Show or hide the countdown timer and skip button
     htmlContent += "    if (randomModeEnabled) {";
     htmlContent += "      document.getElementById('timeUntilNextModeChange').style.display = 'block';";
+    htmlContent += "      document.getElementById('skipModeButton').style.display = 'block';";
     htmlContent += "    } else {";
     htmlContent += "      document.getElementById('timeUntilNextModeChange').style.display = 'none';";
+    htmlContent += "      document.getElementById('skipModeButton').style.display = 'none';";
     htmlContent += "      document.getElementById('timeLeft').innerText = '';";
     htmlContent += "    }";
     htmlContent += "  });";
@@ -317,6 +325,9 @@ void serveHTML(EthernetClient &client)
     htmlContent += "}";
     htmlContent += "function toggleRandomMode() {";
     htmlContent += "  fetch('/toggleRandomMode').then(() => updateStatus());";
+    htmlContent += "}";
+    htmlContent += "function skipRandomMode() {";
+    htmlContent += "  fetch('/skipRandomMode').then(() => updateStatus());";
     htmlContent += "}";
     htmlContent += "function syncTime() {";
     htmlContent += "  var currentTime = Math.floor(Date.now() / 1000);";
