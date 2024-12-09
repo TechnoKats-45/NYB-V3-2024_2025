@@ -1,3 +1,4 @@
+// Updated Code
 #include <QNEthernet.h>
 #include <Arduino.h>
 #include <TimeLib.h>  // Added for RTC
@@ -11,6 +12,28 @@ uint8_t brightness = 3;
 bool isSendingData = false;
 bool ledOutputEnabled = true;
 bool randomModeEnabled = false;
+
+struct Mode 
+{
+    int number; // Arbitrary mode number
+    String name; // Mode name
+};
+
+// Define the modes
+const int NUM_MODES = 10; // Adjust based on the number of modes
+Mode modes[NUM_MODES] = 
+{
+    {12, "Favorite 1"},
+    {18, "Favorite 2"},
+    {19, "Favorite 3"},
+    {20, "Favorite 4"},
+    {21, "Favorite 5"},
+    {22, "Favorite 6"},
+    {23, "Favorite 7"},
+    {24, "Favorite 8"},
+    {25, "Favorite 9"},
+    {26, "Favorite 10"}
+};
 
 EthernetServer server(80);
 
@@ -58,6 +81,8 @@ void handleClient()
         String requestLine = "";
         String currentLine = "";
         bool isRequestLine = true;
+
+        // Read the HTTP headers
         while (client.connected()) {
             if (client.available()) {
                 char c = client.read();
@@ -77,65 +102,70 @@ void handleClient()
             }
         }
 
+        // Handle favicon request
+        if (requestLine.startsWith("GET /favicon.ico")) {
+            sendResponse(client, ""); // Send empty response for favicon requests
+            return;
+        }
+
         // Handle specific requests
-        if (requestLine.startsWith("GET /setMode?mode=")) {
+        else if (requestLine.startsWith("GET /setMode?mode=")) {
             int modeStart = requestLine.indexOf("mode=") + 5;
             String modeString = requestLine.substring(modeStart, requestLine.indexOf(' ', modeStart));
             mode = modeString.toInt();
 
             // Disable random mode when mode 254 is selected
             if (mode == 254) {
-              randomModeEnabled = false;
-              lastModeChangeTime = millis(); // Reset the timer to prevent unexpected mode changes
+                randomModeEnabled = false;
+                lastModeChangeTime = millis(); // Reset the timer to prevent unexpected mode changes
             }
 
             sendUARTData();
             sendResponse(client, "Mode set to " + String(mode));
-            return;
         }
-        if (requestLine.startsWith("GET /setBrightness?brightness=")) {
+        else if (requestLine.startsWith("GET /setBrightness?brightness=")) {
             int brightnessStart = requestLine.indexOf("brightness=") + 11;
             String brightnessString = requestLine.substring(brightnessStart, requestLine.indexOf(' ', brightnessStart));
             brightness = brightnessString.toInt();
             sendUARTData();
             sendResponse(client, "Brightness set to " + String(brightness));
-            return;
         }
-        if (requestLine.startsWith("GET /toggleLEDOutput")) {
+        else if (requestLine.startsWith("GET /toggleLEDOutput")) {
             ledOutputEnabled = !ledOutputEnabled;
             sendUARTData();
             sendResponse(client, ledOutputEnabled ? "Enabled" : "Disabled");
-            return;
         }
-        if (requestLine.startsWith("GET /toggleRandomMode")) {
+        else if (requestLine.startsWith("GET /toggleRandomMode")) {
             randomModeEnabled = !randomModeEnabled;
             lastModeChangeTime = millis(); // Reset timer when toggling random mode
             sendResponse(client, randomModeEnabled ? "Enabled" : "Disabled");
-            return;
         }
-        if (requestLine.startsWith("GET /setInterval?interval=")) {
+        else if (requestLine.startsWith("GET /skipRandomMode")) {
+            switchToRandomMode();
+            lastModeChangeTime = millis(); // Reset the timer
+            sendResponse(client, "Skipped to new random mode");
+        }
+        else if (requestLine.startsWith("GET /setInterval?interval=")) {
             int intervalStart = requestLine.indexOf("interval=") + 9;
             String intervalString = requestLine.substring(intervalStart, requestLine.indexOf(' ', intervalStart));
             modeChangeInterval = intervalString.toFloat() * 60.0;
             lastModeChangeTime = millis(); // Reset timer for the new interval
             sendResponse(client, "Interval set to " + String(modeChangeInterval / 60.0, 2) + " minutes");
-            return;
         }
-        if (requestLine.startsWith("GET /setTime?time=")) {  // Added for setting time
+        else if (requestLine.startsWith("GET /setTime?time=")) {
             int timeStart = requestLine.indexOf("time=") + 5;
             String timeString = requestLine.substring(timeStart, requestLine.indexOf(' ', timeStart));
             unsigned long epochTime = timeString.toInt();
             setTime(epochTime);
             sendResponse(client, "Time set to " + String(epochTime));
-            return;
         }
-        if (requestLine.startsWith("GET /status")) {
+        else if (requestLine.startsWith("GET /status")) {
             sendStatus(client);
-            return;
         }
-
-        // Serve HTML Page
-        serveHTML(client);
+        else {
+            // Serve the HTML Page
+            serveHTML(client);
+        }
     }
 }
 
@@ -202,37 +232,15 @@ void serveHTML(EthernetClient &client)
     htmlContent += "<input type='number' id='intervalInput' step='0.1' min='0.1' value='" + String(modeChangeInterval / 60.0, 2) + "'>";
     htmlContent += "<button onclick='setIntervalTime()'>Set Interval</button>";
 
+    // Generate HTML for mode selection
     htmlContent += "<h3>Select Mode</h3>";
-    for (int i = 0; i <= 20; ++i) {
-        String modeName;
-        switch (i) {
-            case 0: modeName = "Confetti Mode"; break;
-            case 1: modeName = "Color Cascade Mode"; break;
-            case 2: modeName = "One At A Time Confetti Mode"; break;
-            case 3: modeName = "Twinkling Stars Mode"; break;
-            case 4: modeName = "Ripple Mode"; break;
-            case 5: modeName = "Sparkle Mode"; break;
-            case 6: modeName = "Fire Effect Mode"; break;
-            case 7: modeName = "CheckerBoard Mode"; break;
-            case 8: modeName = "Meteor Mode"; break;
-            case 9: modeName = "Color Fade Mode"; break;
-            case 10: modeName = "FireWorks Mode"; break;
-            case 11: modeName = "Row By Row Mode"; break;
-            case 12: modeName = "American Flag"; break;
-            case 13: modeName = "Snow Fall"; break;
-            case 14: modeName = "Wave Effect"; break;
-            case 15: modeName = "Countdown Circle"; break;
-            case 16: modeName = "Hypnotic Spiral"; break;
-            case 17: modeName = "Bouncing Wave"; break;
-            case 18: modeName = "Aurora"; break;
-            case 19: modeName = "GalaxySwirl"; break;
-            case 20: modeName = "Tidal Wave"; break;
-        }
-        htmlContent += "<button id='btn" + String(i) + "' onclick=\"setMode(" + String(i) + ")\">" + modeName + "</button><br>";
+    for (int i = 0; i < NUM_MODES; ++i) 
+    {
+        htmlContent += "<button id='btn" + String(modes[i].number) + "' onclick=\"setMode(" + String(modes[i].number) + ")\">" + modes[i].name + "</button><br>";
     }
-
+    
     // Add the Countdown Mode button
-    htmlContent += "<button id='btn254' onclick=\"setMode(254)\">Countdown Mode</button><br>";
+    htmlContent += "<br><button id='btn254' onclick=\"setMode(254)\">Countdown Mode</button><br>";
 
     htmlContent += "<h3>Adjust Brightness</h3>";
     htmlContent += "<button onclick='adjustBrightness(-1)'>&#8595;</button>";
@@ -244,6 +252,9 @@ void serveHTML(EthernetClient &client)
 
     htmlContent += "<h3>Enable Random Mode Switching</h3>";
     htmlContent += "<button id='randomModeButton' onclick='toggleRandomMode()' class='" + String(randomModeEnabled ? "enabled" : "disabled") + "'>" + String(randomModeEnabled ? "Disable Random Mode" : "Enable Random Mode") + "</button>";
+    
+    // Add the Skip Mode button
+    htmlContent += "<button id='skipModeButton' onclick='skipRandomMode()' style='display:none;'>Skip Mode</button>";
 
     // JavaScript Code
     htmlContent += "<script>";
@@ -269,11 +280,13 @@ void serveHTML(EthernetClient &client)
     htmlContent += "    var teensyTime = new Date(data.currentTime * 1000);";
     htmlContent += "    document.getElementById('teensyTime').innerText = teensyTime.toLocaleString();";
 
-    // Show or hide the countdown timer
+    // Show or hide the countdown timer and skip button
     htmlContent += "    if (randomModeEnabled) {";
     htmlContent += "      document.getElementById('timeUntilNextModeChange').style.display = 'block';";
+    htmlContent += "      document.getElementById('skipModeButton').style.display = 'block';";
     htmlContent += "    } else {";
     htmlContent += "      document.getElementById('timeUntilNextModeChange').style.display = 'none';";
+    htmlContent += "      document.getElementById('skipModeButton').style.display = 'none';";
     htmlContent += "      document.getElementById('timeLeft').innerText = '';";
     htmlContent += "    }";
     htmlContent += "  });";
@@ -313,6 +326,9 @@ void serveHTML(EthernetClient &client)
     htmlContent += "function toggleRandomMode() {";
     htmlContent += "  fetch('/toggleRandomMode').then(() => updateStatus());";
     htmlContent += "}";
+    htmlContent += "function skipRandomMode() {";
+    htmlContent += "  fetch('/skipRandomMode').then(() => updateStatus());";
+    htmlContent += "}";
     htmlContent += "function syncTime() {";
     htmlContent += "  var currentTime = Math.floor(Date.now() / 1000);";
     htmlContent += "  fetch('/setTime?time=' + currentTime).then(() => updateStatus());";
@@ -333,7 +349,7 @@ void serveHTML(EthernetClient &client)
 
 void switchToRandomMode()
 {
-    mode = random(0, 21); // Random mode between 0 and 20
+    mode = random(0, 25); // Random mode between 0 and 20 // TODO - UPDATE THIS ///////////////////////////////////////////////////////////////////////////////
     sendUARTData();
     Serial.println("Switched to random mode: " + String(mode));
 }

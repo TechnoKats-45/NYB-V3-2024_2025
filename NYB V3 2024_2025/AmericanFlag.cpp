@@ -17,18 +17,31 @@ void AmericanFlag_setup(SPIController& spiController)
 // Helper function to flash random white stars in the blue areas
 void flashStars(uint8_t ledBuffer[][3], SPIController& spiController)
 {
-    // Flash random white stars in all blue areas: 1-20, 175-200, 321-346
-    int blueRanges[][2] = { {1, 20}, {175, 200}, {321, 346} };
+    // Define blue LED ranges
+    int blueRanges[][2] = { {1, 26}, {175, 200}, {321, 346} };
+    int numBlueRanges = sizeof(blueRanges) / sizeof(blueRanges[0]);
 
+    // Collect all blue area LEDs
+    int blueLEDs[NUM_LEDS];  // Assuming NUM_LEDS is large enough
+    int numBlueLEDs = 0;
+
+    for (int i = 0; i < numBlueRanges; i++)
+    {
+        int rangeStart = blueRanges[i][0];
+        int rangeEnd = blueRanges[i][1];
+
+        for (int ledNumber = rangeStart; ledNumber <= rangeEnd; ledNumber++)
+        {
+            blueLEDs[numBlueLEDs++] = ledNumber;
+        }
+    }
+
+    // Flash random white stars in the blue area
     for (int star = 0; star < NumStars; star++)
     {
-        // Select a random blue range
-        int rangeIndex = random(0, sizeof(blueRanges) / sizeof(blueRanges[0]));
-        int rangeStart = blueRanges[rangeIndex][0];
-        int rangeEnd = blueRanges[rangeIndex][1];
-
-        // Choose a random LED within the selected range
-        int ledNumber = random(rangeStart, rangeEnd + 1);
+        // Choose a random LED from blueLEDs
+        int ledIndex = random(0, numBlueLEDs);
+        int ledNumber = blueLEDs[ledIndex];
 
         // Temporarily set the LED to white (flash effect)
         ledBuffer[ledNumber][0] = 255;  // Red
@@ -47,17 +60,12 @@ void flashStars(uint8_t ledBuffer[][3], SPIController& spiController)
     delay(StarFlashDuration);  // Hold the star flash longer
 
     // Reset the blue areas after flash duration
-    for (int i = 0; i < sizeof(blueRanges) / sizeof(blueRanges[0]); i++)
+    for (int i = 0; i < numBlueLEDs; i++)
     {
-        int rangeStart = blueRanges[i][0];
-        int rangeEnd = blueRanges[i][1];
-
-        for (int j = rangeStart; j <= rangeEnd; j++)
-        {
-            ledBuffer[j][0] = 0;   // Red
-            ledBuffer[j][1] = 0;   // Green
-            ledBuffer[j][2] = 255; // Blue
-        }
+        int ledNumber = blueLEDs[i];
+        ledBuffer[ledNumber][0] = 0;   // Red
+        ledBuffer[ledNumber][1] = 0;   // Green
+        ledBuffer[ledNumber][2] = 255; // Blue
     }
 }
 
@@ -80,49 +88,59 @@ void AmericanFlag_loop(SPIController& spiController)
     ledBuffer[statusLED][1] = 255; // Green
     ledBuffer[statusLED][2] = 0;   // Blue
 
-    // Set blue areas: 1-20, 175-200, 321-346
-    int blueRanges[][2] = { {1, 20}, {175, 200}, {321, 346} };
-    for (int i = 0; i < sizeof(blueRanges) / sizeof(blueRanges[0]); i++)
+    // Define blue LED ranges
+    int blueRanges[][2] = { {1, 26}, {175, 200}, {321, 346} };
+    int numBlueRanges = sizeof(blueRanges) / sizeof(blueRanges[0]);
+
+    // Set blue LEDs
+    for (int i = 0; i < numBlueRanges; i++)
     {
         int rangeStart = blueRanges[i][0];
         int rangeEnd = blueRanges[i][1];
 
-        for (int j = rangeStart; j <= rangeEnd; j++)
+        for (int ledNumber = rangeStart; ledNumber <= rangeEnd; ledNumber++)
         {
-            ledBuffer[j][0] = 0;   // Red
-            ledBuffer[j][1] = 0;   // Green
-            ledBuffer[j][2] = 255; // Blue
+            ledBuffer[ledNumber][0] = 0;    // Red
+            ledBuffer[ledNumber][1] = 0;    // Green
+            ledBuffer[ledNumber][2] = 255;  // Blue
         }
     }
 
-    // Set the remaining LEDs with alternating red and white colors
-    for (int i = 0; i < NUM_LEDS; i++)
-    {
-        // Skip LEDs in blue ranges
-        bool isBlue = false;
-        for (int j = 0; j < sizeof(blueRanges) / sizeof(blueRanges[0]); j++)
-        {
-            if (i >= blueRanges[j][0] && i <= blueRanges[j][1])
-            {
-                isBlue = true;
-                break;
-            }
-        }
-        if (isBlue)
-            continue;
+    // Set the remaining LEDs with alternating red and white stripes
+    // For each row
+    for (int row = 1; row < totalRows; row++) {
+        int numLEDsInRow = rowSizes[row];
+        // Determine stripe color based on row number
+        int stripeNumber = (row - 1) / 3;
+        bool isRedStripe = (stripeNumber % 2 == 0);
 
-        // Alternating red and white stripes
-        if ((i / 3) % 2 == 0)
-        {
-            ledBuffer[i][0] = 255;  // Red
-            ledBuffer[i][1] = 0;    // Green
-            ledBuffer[i][2] = 0;    // Blue
-        }
-        else
-        {
-            ledBuffer[i][0] = 255;  // Red
-            ledBuffer[i][1] = 255;  // Green
-            ledBuffer[i][2] = 255;  // Blue
+        for (int i = 0; i < numLEDsInRow; i++) {
+            int ledNumber = panelMapping[row][i];
+
+            // Skip LEDs in blue ranges
+            bool isBlue = false;
+            for (int j = 0; j < numBlueRanges; j++)
+            {
+                if (ledNumber >= blueRanges[j][0] && ledNumber <= blueRanges[j][1])
+                {
+                    isBlue = true;
+                    break;
+                }
+            }
+            if (isBlue)
+                continue;
+
+            // Set stripe color
+            if (isRedStripe) {
+                ledBuffer[ledNumber][0] = 255;  // Red
+                ledBuffer[ledNumber][1] = 0;    // Green
+                ledBuffer[ledNumber][2] = 0;    // Blue
+            }
+            else {
+                ledBuffer[ledNumber][0] = 255;  // Red
+                ledBuffer[ledNumber][1] = 255;  // Green
+                ledBuffer[ledNumber][2] = 255;  // Blue
+            }
         }
     }
 
