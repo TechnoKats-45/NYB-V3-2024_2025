@@ -5,8 +5,10 @@
 #include <Arduino.h>
 
 #define GalaxySwirlDelay 50 // Delay between frame updates in milliseconds
-#define SwirlSpeed 0.1      // Speed of the rotation
+#define SwirlSpeed .25      // Speed of the rotation
 #define SwirlRadius 10      // Radius of the swirling effect
+
+static float brightnessScaling = 1; // Brightness scaling factor for the wave effect
 
 // Variables for the swirl effect
 float swirlAngle = 0.0;       // Current angle of the swirl
@@ -58,7 +60,7 @@ void GalaxySwirl_loop(SPIController& spiController) {
     // Send the frame to the LEDs
     spiController.sendStartFrame();
     for (int j = 0; j < NUM_LEDS; j++) {
-        spiController.sendColor(MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
     }
     spiController.sendEndFrame(NUM_LEDS);
 

@@ -6,6 +6,8 @@
 
 #define SpiralDelay 150 // Delay between updates in milliseconds
 
+static float brightnessScaling = 0.5; // Brightness scaling factor for the wave effect
+
 // Spiral order of panels (skipping 1, 7, 12, and 16)
 const int spiralOrder[] = {
     2, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15
@@ -49,7 +51,7 @@ void HypnoticSpiral_loop(SPIController& spiController) {
     // Send the frame to the LEDs
     spiController.sendStartFrame();
     for (int i = 0; i < NUM_LEDS; i++) {
-        spiController.sendColor(MAX_BRIGHTNESS, ledBuffer[i][0], ledBuffer[i][1], ledBuffer[i][2]);
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledBuffer[i][0], ledBuffer[i][1], ledBuffer[i][2]);
     }
     spiController.sendEndFrame(NUM_LEDS);
 

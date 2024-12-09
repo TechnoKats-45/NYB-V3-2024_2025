@@ -8,6 +8,8 @@
 #define StarFlashDuration 200 // Duration in milliseconds for each star flash
 #define NumStars 2           // Number of stars flashing at a time
 
+static float brightnessScaling = 0.25; // Brightness scaling factor for the American Flag effect
+
 // Row-by-row setup function
 void AmericanFlag_setup(SPIController& spiController)
 {
@@ -53,7 +55,7 @@ void flashStars(uint8_t ledBuffer[][3], SPIController& spiController)
     spiController.sendStartFrame();
     for (int j = 0; j < NUM_LEDS; j++)
     {
-        spiController.sendColor(MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
     }
     spiController.sendEndFrame(NUM_LEDS);
 
@@ -148,7 +150,7 @@ void AmericanFlag_loop(SPIController& spiController)
     spiController.sendStartFrame();
     for (int j = 0; j < NUM_LEDS; j++)
     {
-        spiController.sendColor(MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
+        spiController.sendColor(brightnessScaling * MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
     }
     spiController.sendEndFrame(NUM_LEDS);
 

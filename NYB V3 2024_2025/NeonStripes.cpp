@@ -10,6 +10,8 @@
 #define NumStripes 5
 #define StripeWidth 3  // Number of rows per stripe
 
+static float brightnessScaling = 0.25; // Brightness scaling factor for the wave effect
+
 // Colors for the neon stripes (RGB values)
 const uint8_t NeonColors[NumStripes][3] = {
     {255, 0, 255},   // Magenta
@@ -77,7 +79,7 @@ void NeonStripes_loop(SPIController& spiController)
     spiController.sendStartFrame();
     for (int j = 0; j < NUM_LEDS; j++)
     {
-        spiController.sendColor(MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
     }
     spiController.sendEndFrame(NUM_LEDS);
 

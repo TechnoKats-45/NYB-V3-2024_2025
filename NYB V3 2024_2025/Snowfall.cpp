@@ -7,6 +7,8 @@
 #define SnowflakeDelay 100    // Delay between frame updates in milliseconds
 #define MaxSnowflakes 10      // Maximum number of simultaneous snowflakes
 
+static float brightnessScaling = 1; // Brightness scaling factor for the wave effect
+
 // Struct to represent a single snowflake
 struct Snowflake {
     int row;
@@ -92,7 +94,7 @@ void Snowfall_loop(SPIController& spiController) {
     // Send the frame to the LEDs
     spiController.sendStartFrame();
     for (int j = 0; j < NUM_LEDS; j++) {
-        spiController.sendColor(MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
     }
     spiController.sendEndFrame(NUM_LEDS);
 

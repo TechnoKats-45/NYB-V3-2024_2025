@@ -11,6 +11,8 @@ const unsigned long CountdownDuration = 10; // Last 10 seconds
 // Global variable to store the start time of the countdown
 unsigned long countdownStartTime = 0;
 
+static float brightnessScaling = 0.5; // Brightness scaling factor for the wave effect
+
 // Setup function for Countdown mode
 void CountdownEffect_setup(SPIController& spiController) {
     spiController.begin();
@@ -60,7 +62,7 @@ void CountdownEffect_loop(SPIController& spiController) {
     // Send the frame to the LEDs
     spiController.sendStartFrame();
     for (int j = 0; j < NUM_LEDS; j++) {
-        spiController.sendColor(MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
     }
     spiController.sendEndFrame(NUM_LEDS);
 

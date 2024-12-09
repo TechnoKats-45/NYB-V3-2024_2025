@@ -5,6 +5,8 @@
 
 #define CheckerboardDelay 100 // Delay between pattern updates in milliseconds
 
+static float brightnessScaling = 0.5; // Brightness scaling factor for the wave effect
+
 void Checkerboard_setup(SPIController& spiController) {
     spiController.begin(); // Initialize SPI
 }
@@ -45,7 +47,7 @@ void Checkerboard_loop(SPIController& spiController) {
     // Send the checkerboard pattern to the LEDs
     spiController.sendStartFrame();
     for (int j = 0; j < NUM_LEDS; j++) {
-        spiController.sendColor(MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
     }
     spiController.sendEndFrame(NUM_LEDS);
 

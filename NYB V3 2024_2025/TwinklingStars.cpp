@@ -2,6 +2,8 @@
 #include <Arduino.h>
 #include "Globals.h"  // Include Globals to access MAX_BRIGHTNESS
 
+static float brightnessScaling = 1; // Brightness scaling factor for the wave effect
+
 void TwinklingStars_setup(SPIController& spiController) 
 {
     spiController.begin();
@@ -23,7 +25,7 @@ void TwinklingStars_loop(SPIController& spiController, int numLEDs)
             uint8_t green = random(0, 10);    // Almost no green for a pure purple tone
             uint8_t blue = random(10, 255);   // High blue values for vibrant purple
 
-            spiController.sendColor(brightness, red, green, blue);
+            spiController.sendColor(brightnessScaling*brightness, red, green, blue);
         }
     }
 

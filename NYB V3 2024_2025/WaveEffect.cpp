@@ -10,6 +10,8 @@
 #define WaveFrequency 0.5      // Frequency of the wave (controls how many LEDs fit in one cycle)
 #define WaveSpeed 0.2          // Speed of the wave (how fast it moves)
 
+float static brightnessScaling = 0.5; // Brightness scaling factor for the wave effect
+
 // Struct to represent a wave
 struct Wave {
     float position; // Current position in the wave
@@ -72,7 +74,7 @@ void WaveEffect_loop(SPIController& spiController) {
     // Send the frame to the LEDs
     spiController.sendStartFrame();
     for (int j = 0; j < NUM_LEDS; j++) {
-        spiController.sendColor(MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
     }
     spiController.sendEndFrame(NUM_LEDS);
 

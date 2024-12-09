@@ -4,6 +4,8 @@
 #include <Arduino.h>
 #include <math.h>
 
+static float brightnessScaling = 0.25; // Brightness scaling factor for the wave effect
+
 // Gradient colors for the aurora (transitioning smoothly between green, blue, and purple)
 const uint8_t AuroraColors[7][3] = {
     {0, 255, 0},     // Green
@@ -62,7 +64,7 @@ void AuroraEffect_loop(SPIController& spiController) {
     // Send the frame to the LEDs
     spiController.sendStartFrame();
     for (int j = 0; j < NUM_LEDS; j++) {
-        spiController.sendColor(MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
     }
     spiController.sendEndFrame(NUM_LEDS);
 

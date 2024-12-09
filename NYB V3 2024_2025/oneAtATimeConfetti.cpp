@@ -2,7 +2,9 @@
 #include <Arduino.h>
 #include "Globals.h"  // Include Globals to access MAX_BRIGHTNESS
 
-#define confettiDelay 1  // Delay between confetti steps in milliseconds
+#define confettiDelay 5  // Delay between confetti steps in milliseconds
+
+static float brightnessScaling = 1; // Brightness scaling factor for the wave effect
 
 // Array to store the current color of each LED
 struct LEDColor {
@@ -46,7 +48,7 @@ void OneAtATimeConfetti_loop(SPIController& spiController, int numLEDs)
 
     // Send color data for each LED, keeping their previous state
     for (int i = 0; i < numLEDs; i++) {
-        spiController.sendColor(MAX_BRIGHTNESS, ledColors[i].red, ledColors[i].green, ledColors[i].blue);  // Use MAX_BRIGHTNESS
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledColors[i].red, ledColors[i].green, ledColors[i].blue);  // Use MAX_BRIGHTNESS
     }
 
     spiController.sendEndFrame(numLEDs);

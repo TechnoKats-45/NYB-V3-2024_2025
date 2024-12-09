@@ -8,6 +8,8 @@
 #define LEDDelay 50  // Delay between frame updates in milliseconds
 #define MaxCircles 3 // Maximum number of circles active at once
 
+static float brightnessScaling = 1; // Brightness scaling factor for the wave effect
+
 // Structure to represent an expanding circle
 struct Circle {
     float radius;
@@ -138,7 +140,7 @@ void EchoingCircles_loop(SPIController& spiController)
     spiController.sendStartFrame();
     for (int j = 0; j < NUM_LEDS; j++)
     {
-        spiController.sendColor(MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
     }
     spiController.sendEndFrame(NUM_LEDS);
 

@@ -3,6 +3,8 @@
 #include <Arduino.h>
 #include <math.h>
 
+static float brightnessScaling = 0.5; // Brightness scaling factor for the wave effect
+
 void Breathing_setup(SPIController& spiController) 
 {
     spiController.begin();
@@ -19,7 +21,7 @@ void Breathing_loop(SPIController& spiController, int numLEDs)
 
     for (int i = 0; i < numLEDs; i++) 
     {
-        spiController.sendColor(brightness, 255, 0, 0);  // Red color pulse
+        spiController.sendColor(brightnessScaling*brightness, 255, 0, 0);  // Red color pulse
     }
 
     spiController.sendEndFrame(numLEDs);

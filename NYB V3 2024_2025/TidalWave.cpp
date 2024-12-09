@@ -7,6 +7,8 @@ static uint8_t** ledBuffer = nullptr; // Pointer for dynamically allocated LED b
 static int currentStep = 0;           // Current step in the wave animation
 static unsigned long lastUpdateTime = 0; // Last time the wave was updated
 
+static float brightnessScaling = 1; // Brightness scaling factor for the wave effect
+
 // Setup function for Tidal Wave
 void TidalWave_setup(SPIController& spiController)
 {
@@ -86,7 +88,7 @@ void TidalWave_loop(SPIController& spiController)
         spiController.sendStartFrame();
         for (int j = 0; j < NUM_LEDS; j++)
         {
-            spiController.sendColor(MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
+            spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
         }
         spiController.sendEndFrame(NUM_LEDS);
 

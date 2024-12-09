@@ -6,6 +6,8 @@
 
 #define CountdownDelay 1000 // Delay between panel updates in milliseconds
 
+static float brightnessScaling = 0.5; // Brightness scaling factor for the wave effect
+
 // Correct clockwise panel order (excluding Panels 1, 7, and 12, and ending with Panel 16 in the center)
 const int panelOrder[] = {
     2, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 16
@@ -46,7 +48,7 @@ void CountdownCircle_loop(SPIController& spiController) {
     // Send the frame to the LEDs
     spiController.sendStartFrame();
     for (int i = 0; i < NUM_LEDS; i++) {
-        spiController.sendColor(MAX_BRIGHTNESS, ledBuffer[i][0], ledBuffer[i][1], ledBuffer[i][2]);
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledBuffer[i][0], ledBuffer[i][1], ledBuffer[i][2]);
     }
     spiController.sendEndFrame(NUM_LEDS);
 

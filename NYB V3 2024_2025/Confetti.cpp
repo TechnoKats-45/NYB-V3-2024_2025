@@ -4,6 +4,8 @@
 
 #define confettiDelay 250  // Delay between confetti steps in milliseconds
 
+static float brightnessScaling = 0.5; // Brightness scaling factor for the wave effect
+
 // Confetti setup function
 void Confetti_setup(SPIController& spiController)
 {
@@ -27,7 +29,7 @@ void Confetti_loop(SPIController& spiController, int numLEDs)
             uint8_t red = random(0, 256);
             uint8_t green = random(0, 256);
             uint8_t blue = random(0, 256);
-            spiController.sendColor(MAX_BRIGHTNESS, red, green, blue);  // Use MAX_BRIGHTNESS for adjustable brightness
+            spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, red, green, blue);  // Use MAX_BRIGHTNESS for adjustable brightness
         }
     }
 

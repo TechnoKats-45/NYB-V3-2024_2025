@@ -29,13 +29,16 @@
 #include "MosaicMorph.h"
 #include "NeonStripes.h"
 #include "EchoingCircles.h"
+#include "TurnOffLEDs.h"
 
-uint8_t currentMode = 255;
+uint8_t currentMode = 253;
 uint8_t lastMode = 255;
 uint8_t brightness = 0;
 uint8_t color = 0;
 uint8_t config = 0;
 SPIController spiController;
+
+bool modeChanged = false;  // Flag to indicate if the mode has changed at least once
 
 void setup()
 {
@@ -99,6 +102,7 @@ void loop()
             if (currentMode != lastMode)
             {
                 lastMode = currentMode;
+                modeChanged = true;  // Set the flag when mode changes for the first time
                 setupPattern();
             }
         }
@@ -112,6 +116,13 @@ void setupPattern()
     // Reset SPI and clear LEDs when changing modes
     spiController.clear(NUM_LEDS);
     spiController.begin();
+
+    if (!modeChanged)
+    {
+        // If mode hasn't changed, stay in mode 253
+        TurnOffLEDs_setup(spiController);
+        return;
+    }
 
     switch (currentMode)
     {
@@ -193,6 +204,9 @@ void setupPattern()
     case 25:
 		EchoingCircles_setup(spiController);
 		break;
+    case 253:
+		TurnOffLEDs_setup(spiController);
+		break;
 	case 254:
 		CountdownEffect_setup(spiController);
         break;
@@ -204,6 +218,13 @@ void setupPattern()
 
 void loopPattern()
 {
+    if (!modeChanged)
+    {
+        // If mode hasn't changed, stay in mode 253
+        TurnOffLEDs_loop(spiController);
+        return;
+    }
+
     switch (currentMode)
     {
     case 0:
@@ -283,6 +304,9 @@ void loopPattern()
 		break;
     case 25:
 		EchoingCircles_loop(spiController);
+		break;
+    case 253:
+		TurnOffLEDs_loop(spiController);
 		break;
 	case 254:
 		CountdownEffect_loop(spiController);

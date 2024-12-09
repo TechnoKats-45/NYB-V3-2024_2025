@@ -6,6 +6,8 @@
 
 #define LEDDelay 100  // Delay between lighting each LED in milliseconds
 
+static float brightnessScaling = 1; // Brightness scaling factor for the wave effect
+
 // Row-by-row setup function
 void RowByRow_setup(SPIController& spiController)
 {
@@ -63,7 +65,7 @@ void RowByRow_loop(SPIController& spiController, uint8_t currentMode)
     spiController.sendStartFrame();
     for (int j = 0; j < NUM_LEDS; j++)
     {
-        spiController.sendColor(MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
     }
     spiController.sendEndFrame(NUM_LEDS);  // End frame for the entire strip
 

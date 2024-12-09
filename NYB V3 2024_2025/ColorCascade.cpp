@@ -4,6 +4,8 @@
 
 #define ColorCascadeDelay 20  // Delay between color Cascade steps in milliseconds
 
+static float brightnessScaling = 0.5; // Brightness scaling factor for the wave effect
+
 // Color Cascade setup function
 void ColorCascade_setup(SPIController& spiController)
 {
@@ -21,7 +23,7 @@ void ColorCascade_loop(SPIController& spiController, int numLEDs)
     {
         uint8_t red, green, blue;
         spiController.hsvToRgb(hue + (float)i / numLEDs, 1.0, 1.0, red, green, blue);
-        spiController.sendColor(MAX_BRIGHTNESS, red, green, blue);  // Use MAX_BRIGHTNESS for adjustable brightness
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, red, green, blue);  // Use MAX_BRIGHTNESS for adjustable brightness
     }
 
     spiController.sendEndFrame(numLEDs);

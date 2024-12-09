@@ -4,6 +4,8 @@
 
 #define ColorFadeDelay 20  // Delay between color fade steps in milliseconds
 
+static float brightnessScaling = 1; // Brightness scaling factor for the wave effect
+
 // Color fade setup function
 void ColorFade_setup(SPIController& spiController)
 {
@@ -23,7 +25,7 @@ void ColorFade_loop(SPIController& spiController, int numLEDs)
 
     for (int i = 0; i < numLEDs; i++)
     {
-        spiController.sendColor(MAX_BRIGHTNESS, red, green, blue);  // Use MAX_BRIGHTNESS for adjustable brightness
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, red, green, blue);  // Use MAX_BRIGHTNESS for adjustable brightness
     }
 
     spiController.sendEndFrame(numLEDs);

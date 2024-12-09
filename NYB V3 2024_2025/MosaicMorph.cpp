@@ -4,7 +4,9 @@
 #include "globals.h"
 #include <Arduino.h>
 
-#define LEDDelay 50  // Delay between frame updates in milliseconds
+#define LEDDelay 10  // Delay between frame updates in milliseconds
+
+static float brightnessScaling = 0.25; // Brightness scaling factor for the wave effect
 
 // Declare ledHues as a pointer
 float* ledHues = nullptr;
@@ -82,7 +84,7 @@ void MosaicMorph_loop(SPIController& spiController)
     spiController.sendStartFrame();
     for (int j = 0; j < NUM_LEDS; j++)
     {
-        spiController.sendColor(MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
     }
     spiController.sendEndFrame(NUM_LEDS);
 

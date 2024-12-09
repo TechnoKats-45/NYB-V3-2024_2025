@@ -2,6 +2,8 @@
 #include <Arduino.h>
 #include "Globals.h"
 
+static float brightnessScaling = 1; // Brightness scaling factor for the wave effect
+
 void Meteor_setup(SPIController& spiController)
 {
     spiController.begin();
@@ -17,11 +19,11 @@ void Meteor_loop(SPIController& spiController, int numLEDs)
     {
         if (i == meteorPosition)
         {
-            spiController.sendColor(MAX_BRIGHTNESS, 255, 255, 255);  // Bright white meteor scaled by MAX_BRIGHTNESS
+            spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, 255, 255, 255);  // Bright white meteor scaled by MAX_BRIGHTNESS
         }
         else if (i > meteorPosition)
         {
-            spiController.sendColor(MAX_BRIGHTNESS / 2, 255, 255, 255);  // Fading tail at half of MAX_BRIGHTNESS
+            spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS / 2, 255, 255, 255);  // Fading tail at half of MAX_BRIGHTNESS
         }
         else
         {

@@ -4,6 +4,8 @@
 #include <Arduino.h>
 #include <math.h>
 
+static float brightnessScaling = 1; // Brightness scaling factor for the wave effect
+
 // Array for ROYGBIV colors (Red, Orange, Yellow, Green, Blue, Indigo, Violet)
 const uint8_t ROYGBIV[7][3] = {
     {255, 0, 0},     // Red
@@ -83,7 +85,7 @@ void BouncingWaveEffect_loop(SPIController& spiController) {
     // Send the frame to the LEDs
     spiController.sendStartFrame();
     for (int j = 0; j < NUM_LEDS; j++) {
-        spiController.sendColor(MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
     }
     spiController.sendEndFrame(NUM_LEDS);
 

@@ -8,6 +8,8 @@
 #define NumColumns 13  // Number of spectrum bars (columns)
 #define MaxBarHeight (totalRows - 1) // Maximum height of the bars
 
+static float brightnessScaling = 1; // Brightness scaling factor for the wave effect
+
 // Array to hold the current height of each bar
 static int barHeights[NumColumns];
 
@@ -96,7 +98,7 @@ void SpectrumBars_loop(SPIController& spiController)
     spiController.sendStartFrame();
     for (int j = 0; j < NUM_LEDS; j++)
     {
-        spiController.sendColor(MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
     }
     spiController.sendEndFrame(NUM_LEDS);
 

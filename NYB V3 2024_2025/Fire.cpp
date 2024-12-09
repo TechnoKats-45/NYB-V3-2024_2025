@@ -4,6 +4,8 @@
 
 #define FireEffectDelay 20  // Delay between fire effect steps in milliseconds
 
+static float brightnessScaling = 1; // Brightness scaling factor for the wave effect
+
 // Fire effect setup function
 void FireEffect_setup(SPIController& spiController)
 {
@@ -28,7 +30,7 @@ void FireEffect_loop(SPIController& spiController, int numLEDs)
         if (hue > 1.0f) hue -= 1.0f;
 
         // Vary the brightness slightly for each LED to create a flickering effect
-        float brightness = MAX_BRIGHTNESS * (brightnessFactor + (float)(random(-10, 10)) / 100.0);
+        float brightness = brightnessScaling*MAX_BRIGHTNESS * (brightnessFactor + (float)(random(-10, 10)) / 100.0);
 
         // Convert HSV to RGB with a fixed saturation for warm colors
         spiController.hsvToRgb(hue, 1.0, brightness, red, green, blue);
