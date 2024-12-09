@@ -22,16 +22,16 @@ struct Mode
 const int NUM_MODES = 10; // Adjust based on the number of modes
 Mode modes[NUM_MODES] = 
 {
-    {12, "Favorite 1"},
-    {18, "Favorite 2"},
-    {19, "Favorite 3"},
-    {20, "Favorite 4"},
-    {21, "Favorite 5"},
-    {22, "Favorite 6"},
-    {23, "Favorite 7"},
-    {24, "Favorite 8"},
-    {25, "Favorite 9"},
-    {26, "Favorite 10"}
+    {12, "American Flag"},
+    {7, "CheckerBoard"},
+    {5, "Sparkle"},
+    {2, "One-At-A-Time-Confetti"},
+    {21, "Laser Sweep"},
+    {22, "Spectrum Bars"},
+    {23, "Mosaic Morph"},
+    {24, "Neon Stripes"},
+    {25, "Echoing Circles"},
+    {26, "Radiating Rainbows"}
 };
 
 EthernetServer server(80);
