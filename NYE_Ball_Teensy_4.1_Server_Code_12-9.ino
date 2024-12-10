@@ -29,7 +29,7 @@ Mode modes[NUM_MODES] =
     {21, "Laser Sweep"},
     {45, "Techno Swirl"},
     {44, "Orbiting Points"},
-    {24, "Neon Stripes"},
+    {36, "Technological Steaks"},
     {25, "Echoing Circles"},
     {26, "Radiating Rainbows"}
 };
@@ -261,8 +261,9 @@ void serveHTML(EthernetClient &client)
     htmlContent += "    timeRemaining = data.timeRemaining;";
     htmlContent += "    lastUpdateTime = Date.now();";
     htmlContent += "    randomModeEnabled = data.randomModeEnabled;";
-    htmlContent += "    document.querySelectorAll('button[id^=btn]').forEach(btn => btn.classList.remove('selected'));";
-    htmlContent += "    document.getElementById('btn' + data.mode).classList.add('selected');";
+    //htmlContent += "    document.querySelectorAll('button[id^=btn]').forEach(btn => btn.classList.remove('selected'));";
+    //htmlContent += "    document.getElementById('btn' + data.mode).classList.add('selected');";
+
     htmlContent += "    document.getElementById('ledToggleButton').className = data.ledOutputEnabled ? 'enabled' : 'disabled';";
     htmlContent += "    document.getElementById('ledToggleButton').innerText = data.ledOutputEnabled ? 'Disable LED Output' : 'Enable LED Output';";
     htmlContent += "    document.getElementById('randomModeButton').className = data.randomModeEnabled ? 'enabled' : 'disabled';";
@@ -340,7 +341,7 @@ void switchToRandomMode() // Not used
 
 void switchToNextMode()
 {
-    mode = (mode + 1) % 27; // Step to the next mode, wrap around to 0 after 26
+    mode = (mode + 1) % 46; // Step to the next mode, wrap around to 0 after 45
     sendUARTData();
     Serial.println("Switched to next mode: " + String(mode));
 }
