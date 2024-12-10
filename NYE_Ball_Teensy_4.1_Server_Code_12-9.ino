@@ -22,14 +22,14 @@ struct Mode
 const int NUM_MODES = 10; // Adjust based on the number of modes
 Mode modes[NUM_MODES] = 
 {
-    {12, "American Flag"},
-    {7, "CheckerBoard"},
-    {5, "Sparkle"},
     {2, "One-At-A-Time-Confetti"},
+    {12, "American Flag"},
+    {7, "Checkerboard"},
+    {5, "Sparkle"},
     {21, "Laser Sweep"},
-    {22, "Spectrum Bars"},
-    {23, "Mosaic Morph"},
-    {24, "Neon Stripes"},
+    {45, "Techno Swirl"},
+    {44, "Orbiting Points"},
+    {36, "Technological Steaks"},
     {25, "Echoing Circles"},
     {26, "Radiating Rainbows"}
 };
@@ -261,8 +261,9 @@ void serveHTML(EthernetClient &client)
     htmlContent += "    timeRemaining = data.timeRemaining;";
     htmlContent += "    lastUpdateTime = Date.now();";
     htmlContent += "    randomModeEnabled = data.randomModeEnabled;";
-    htmlContent += "    document.querySelectorAll('button[id^=btn]').forEach(btn => btn.classList.remove('selected'));";
-    htmlContent += "    document.getElementById('btn' + data.mode).classList.add('selected');";
+    //htmlContent += "    document.querySelectorAll('button[id^=btn]').forEach(btn => btn.classList.remove('selected'));";
+    //htmlContent += "    document.getElementById('btn' + data.mode).classList.add('selected');";
+
     htmlContent += "    document.getElementById('ledToggleButton').className = data.ledOutputEnabled ? 'enabled' : 'disabled';";
     htmlContent += "    document.getElementById('ledToggleButton').innerText = data.ledOutputEnabled ? 'Disable LED Output' : 'Enable LED Output';";
     htmlContent += "    document.getElementById('randomModeButton').className = data.randomModeEnabled ? 'enabled' : 'disabled';";
@@ -333,14 +334,14 @@ void serveHTML(EthernetClient &client)
 
 void switchToRandomMode() // Not used
 {
-    mode = random(0, 26); // Random mode between 0 and 26 // TODO - UPDATE THIS ///////////////////////////////////////////////////////////////////////////////
+    mode = random(0, 46); // Random mode between 0 and 26 // TODO - UPDATE THIS ///////////////////////////////////////////////////////////////////////////////
     sendUARTData();
     Serial.println("Switched to random mode: " + String(mode));
 }
 
 void switchToNextMode()
 {
-    mode = (mode + 1) % 27; // Step to the next mode, wrap around to 0 after 26
+    mode = (mode + 1) % 46; // Step to the next mode, wrap around to 0 after 45
     sendUARTData();
     Serial.println("Switched to next mode: " + String(mode));
 }
