@@ -112,26 +112,83 @@
     <ClCompile Include="TidalWave.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
-    <ClCompile Include="LaserSweep.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SpectrumBars.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MosaicMorph.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NeonStripes.cpp">
+    <ClCompile Include="TurnOffLEDs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EchoingCircles.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="LaserSweep.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="MosaicMorph.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="NeonStripes.cpp">
+      <Filter>Source Files\Patterns</Filter>
     </ClCompile>
     <ClCompile Include="RadiatingRainbow.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Patterns</Filter>
     </ClCompile>
-    <ClCompile Include="TurnOffLEDs.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="SpectrumBars.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="DiamondWeave.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="TriadVortex.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="PlasmaGrid.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="KaleidoPulse.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="FractalBloom.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="DragonsBreath.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="PulsarRings.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="PrismTwist.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="FireflySwarm.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="RotatingTriadRings.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="InversePinwheel.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="Pinwheel.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="PulsingWaves.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="EquilateralRipple.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="TriangularCheckerboard.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="TriangularSpiral.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="InwardCollapse.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="OrbitingPoints.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="TechnoSwirl.cpp">
+      <Filter>Source Files\Patterns</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -177,9 +234,6 @@
     <ClInclude Include="RowByRow.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
-    <ClInclude Include="PanelMapping.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AmericanFlag.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
@@ -207,26 +261,86 @@
     <ClInclude Include="TidalWave.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
-    <ClInclude Include="LaserSweep.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SpectrumBars.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MosaicMorph.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NeonStripes.h">
+    <ClInclude Include="TurnOffLEDs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EchoingCircles.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="LaserSweep.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="MosaicMorph.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="NeonStripes.h">
+      <Filter>Header Files\Patterns</Filter>
     </ClInclude>
     <ClInclude Include="RadiatingRainbow.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="SpectrumBars.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="DiamondWeave.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="TriadVortex.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="PlasmaGrid.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="KaleidoPulse.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="FractalBloom.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="DragonsBreath.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="PulsarRings.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="PrismTwist.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="FireflySwarm.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="RotatingTriadRings.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelMapping.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TurnOffLEDs.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="InversePinwheel.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Pinwheel.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="PulsingWaves.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="EquilateralRipple.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="TriangularCheckerboard.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="TriangularSpiral.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="InwardCollapse.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="OrbitingPoints.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="TechnoSwirl.h">
+      <Filter>Header Files\Patterns</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

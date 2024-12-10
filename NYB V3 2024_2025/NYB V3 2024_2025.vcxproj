@@ -76,7 +76,26 @@
   <ItemGroup>
     <ClCompile Include="AmericanFlag.cpp" />
     <ClCompile Include="Aurora.cpp" />
+    <ClCompile Include="DiamondWeave.cpp" />
+    <ClCompile Include="DragonsBreath.cpp" />
+    <ClCompile Include="EquilateralRipple.cpp" />
+    <ClCompile Include="FireflySwarm.cpp" />
+    <ClCompile Include="FractalBloom.cpp" />
+    <ClCompile Include="TechnoSwirl.cpp" />
+    <ClCompile Include="InwardCollapse.cpp" />
+    <ClCompile Include="KaleidoPulse.cpp" />
+    <ClCompile Include="InversePinwheel.cpp" />
+    <ClCompile Include="OrbitingPoints.cpp" />
+    <ClCompile Include="Pinwheel.cpp" />
+    <ClCompile Include="PlasmaGrid.cpp" />
+    <ClCompile Include="PrismTwist.cpp" />
+    <ClCompile Include="PulsarRings.cpp" />
+    <ClCompile Include="PulsingWaves.cpp" />
     <ClCompile Include="RadiatingRainbow.cpp" />
+    <ClCompile Include="RotatingTriadRings.cpp" />
+    <ClCompile Include="TriadVortex.cpp" />
+    <ClCompile Include="TriangularCheckerboard.cpp" />
+    <ClCompile Include="TriangularSpiral.cpp" />
     <ClCompile Include="TurnOffLEDs.cpp" />
     <ClCompile Include="BouncingWave.cpp" />
     <ClCompile Include="Breathing.cpp" />
@@ -119,7 +138,26 @@
   <ItemGroup>
     <ClInclude Include="AmericanFlag.h" />
     <ClInclude Include="Aurora.h" />
+    <ClInclude Include="DiamondWeave.h" />
+    <ClInclude Include="DragonsBreath.h" />
+    <ClInclude Include="EquilateralRipple.h" />
+    <ClInclude Include="FireflySwarm.h" />
+    <ClInclude Include="FractalBloom.h" />
+    <ClInclude Include="TechnoSwirl.h" />
+    <ClInclude Include="InwardCollapse.h" />
+    <ClInclude Include="KaleidoPulse.h" />
+    <ClInclude Include="InversePinwheel.h" />
+    <ClInclude Include="OrbitingPoints.h" />
+    <ClInclude Include="Pinwheel.h" />
+    <ClInclude Include="PlasmaGrid.h" />
+    <ClInclude Include="PrismTwist.h" />
+    <ClInclude Include="PulsarRings.h" />
+    <ClInclude Include="PulsingWaves.h" />
     <ClInclude Include="RadiatingRainbow.h" />
+    <ClInclude Include="RotatingTriadRings.h" />
+    <ClInclude Include="TriadVortex.h" />
+    <ClInclude Include="TriangularCheckerboard.h" />
+    <ClInclude Include="TriangularSpiral.h" />
     <ClInclude Include="TurnOffLEDs.h" />
     <ClInclude Include="BouncingWave.h" />
     <ClInclude Include="Breathing.h" />
@@ -153,7 +191,7 @@
     <DebuggerFlavor>VisualMicroDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <IncludePath>$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\libraries\SPI;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\libraries\EEPROM;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\cores\teensy3;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\arm-none-eabi\thumb\v7e-m\nofp;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\backward;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include-fixed;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\libraries\SPI;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\libraries\EEPROM;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\cores\teensy3;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\arm-none-eabi\thumb\v7e-m\nofp;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\backward;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include-fixed;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\libraries\EEPROM</IncludePath>
     <RemoteCCompileToolExe>$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\bin\arm-none-eabi-g++</RemoteCCompileToolExe>
     <RemoteCppCompileToolExe>$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\bin\arm-none-eabi-g++</RemoteCppCompileToolExe>
     <ValidateArchitecture>false</ValidateArchitecture>
@@ -174,7 +212,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\libraries\SPI;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\libraries\EEPROM;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\cores\teensy3;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\arm-none-eabi\thumb\v7e-m\nofp;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\backward;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include-fixed;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\libraries\SPI;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\libraries\EEPROM;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\cores\teensy3;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\arm-none-eabi\thumb\v7e-m\nofp;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\backward;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include-fixed;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\libraries\EEPROM;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <GccToolChain>$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\bin\arm-none-eabi-g++</GccToolChain>
       <CppLanguageStandard>c++17</CppLanguageStandard>
       <CLanguageStandard>gnu11</CLanguageStandard>

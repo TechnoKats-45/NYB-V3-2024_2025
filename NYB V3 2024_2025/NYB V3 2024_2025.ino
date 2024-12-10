@@ -1,5 +1,7 @@
 #include "SPIController.h"
 #include "globals.h"
+#include <EEPROM.h>
+
 #include "ColorCascade.h"
 #include "Confetti.h"
 #include "TwinklingStars.h"
@@ -31,6 +33,25 @@
 #include "EchoingCircles.h"
 #include "TurnOffLEDs.h"
 #include "RadiatingRainbow.h"
+#include "DiamondWeave.h"
+#include "TriadVortex.h"
+#include "PlasmaGrid.h"
+#include "KaleidoPulse.h"
+#include "FractalBloom.h"
+#include "DragonsBreath.h"
+#include "PulsarRings.h"
+#include "PrismTwist.h"
+#include "FireflySwarm.h"
+#include "RotatingTriadRings.h"
+#include "InversePinwheel.h"
+#include "Pinwheel.h"
+#include "PulsingWaves.h"
+#include "EquilateralRipple.h"
+#include "TriangularCheckerboard.h"
+#include "TriangularSpiral.h"
+#include "InwardCollapse.h"
+#include "OrbitingPoints.h"
+#include "TechnoSwirl.h"
 
 uint8_t currentMode = 253;
 uint8_t lastMode = 255;
@@ -46,6 +67,7 @@ void setup()
     spiController.begin();
     Serial.begin(9600);
     Serial1.begin(115200);
+	EEPROM.write(0, 0);  // Reset the color index to red on startup
 }
 
 void loop()
@@ -208,6 +230,63 @@ void setupPattern()
     case 26:
 		RadiatingRainbow_setup(spiController);
 		break;
+    case 27:
+		DiamondWeave_setup(spiController);
+		break;
+    case 28:
+		TriadVortex_setup(spiController);
+		break;
+    case 29:
+		PlasmaGrid_setup(spiController);
+		break;
+    case 30:
+		KaleidoPulse_setup(spiController);
+		break;
+    case 31:
+		FractalBloom_setup(spiController);
+		break;
+    case 32:
+		DragonsBreath_setup(spiController);
+		break;
+    case 33:
+		PulsarRings_setup(spiController);
+		break;
+    case 34:
+		PrismTwist_setup(spiController);
+		break;
+    case 35:
+		FireflySwarm_setup(spiController);
+		break;
+    case 36:
+		RotatingTriadRings_setup(spiController);
+		break;
+    case 37:
+        InversePinwheel_setup(spiController);
+		break;
+    case 38:
+		Pinwheel_setup(spiController);
+		break;
+    case 39:
+		PulsingWaves_setup(spiController);
+		break;
+    case 40:
+		EquilateralRipple_setup(spiController);
+		break;
+    case 41:
+		TriangularCheckerboard_setup(spiController);
+		break;
+    case 42:
+		TriangularSpiral_setup(spiController);
+		break;
+    case 43:
+		InwardCollapse_setup(spiController);
+		break;
+    case 44:
+		OrbitingPoints_setup(spiController);
+		break;
+    case 45:
+		TechnoSwirl_setup(spiController);
+		break;
     case 253:
 		TurnOffLEDs_setup(spiController);
 		break;
@@ -311,6 +390,63 @@ void loopPattern()
 		break;
     case 26:
 		RadiatingRainbow_loop(spiController);
+		break;
+	case 27:
+		DiamondWeave_loop(spiController);
+		break;
+    case 28:
+		TriadVortex_loop(spiController);
+		break;
+    case 29:
+		PlasmaGrid_loop(spiController);
+		break;
+    case 30:
+		KaleidoPulse_loop(spiController);
+		break;
+    case 31:
+		FractalBloom_loop(spiController);
+		break;
+    case 32:
+		DragonsBreath_loop(spiController);
+		break;
+    case 33:
+		PulsarRings_loop(spiController);
+		break;
+    case 34:
+		PrismTwist_loop(spiController);
+        break;
+	case 35:
+		FireflySwarm_loop(spiController);
+		break;
+    case 36:
+		RotatingTriadRings_loop(spiController);
+		break;
+    case 37:
+        InversePinwheel_loop(spiController);
+		break;
+    case 38:
+		Pinwheel_loop(spiController);
+		break;
+    case 39:
+		PulsingWaves_loop(spiController);
+		break;
+    case 40:
+		EquilateralRipple_loop(spiController);
+		break;
+    case 41:
+		TriangularCheckerboard_loop(spiController);
+		break;
+    case 42:
+		TriangularSpiral_loop(spiController);
+		break;
+    case 43:
+		InwardCollapse_loop(spiController);
+		break;
+    case 44:
+		OrbitingPoints_loop(spiController);
+		break;
+    case 45:
+		TechnoSwirl_loop(spiController);
 		break;
     case 253:
 		TurnOffLEDs_loop(spiController);
