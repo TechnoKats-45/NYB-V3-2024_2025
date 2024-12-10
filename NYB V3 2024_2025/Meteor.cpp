@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include "Globals.h"
 
-static float brightnessScaling = 1; // Brightness scaling factor for the wave effect
+static float brightnessScaling = .5; // Brightness scaling factor for the wave effect
 
 void Meteor_setup(SPIController& spiController)
 {

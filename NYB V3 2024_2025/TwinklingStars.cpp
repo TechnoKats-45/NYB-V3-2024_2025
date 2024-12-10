@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include "Globals.h"  // Include Globals to access MAX_BRIGHTNESS
 
-static float brightnessScaling = 1; // Brightness scaling factor for the wave effect
+static float brightnessScaling = 0.5; // Brightness scaling factor for the wave effect
 
 void TwinklingStars_setup(SPIController& spiController) 
 {

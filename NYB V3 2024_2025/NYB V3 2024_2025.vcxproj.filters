@@ -127,6 +127,12 @@
     <ClCompile Include="EchoingCircles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RadiatingRainbow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TurnOffLEDs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Confetti.h">
@@ -214,6 +220,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EchoingCircles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RadiatingRainbow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TurnOffLEDs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,7 +6,7 @@
 
 #define CountdownDelay 1000 // Delay between panel updates in milliseconds
 
-static float brightnessScaling = 0.5; // Brightness scaling factor for the wave effect
+static float brightnessScaling = 0.25; // Brightness scaling factor for the wave effect
 
 // Correct clockwise panel order (excluding Panels 1, 7, and 12, and ending with Panel 16 in the center)
 const int panelOrder[] = {

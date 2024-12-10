@@ -6,7 +6,7 @@
 
 #define SpiralDelay 150 // Delay between updates in milliseconds
 
-static float brightnessScaling = 0.5; // Brightness scaling factor for the wave effect
+static float brightnessScaling = 0.25; // Brightness scaling factor for the wave effect
 
 // Spiral order of panels (skipping 1, 7, 12, and 16)
 const int spiralOrder[] = {

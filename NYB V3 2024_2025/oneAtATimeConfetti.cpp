@@ -4,7 +4,7 @@
 
 #define confettiDelay 5  // Delay between confetti steps in milliseconds
 
-static float brightnessScaling = 1; // Brightness scaling factor for the wave effect
+static float brightnessScaling = 0.5; // Brightness scaling factor for the wave effect
 
 // Array to store the current color of each LED
 struct LEDColor {

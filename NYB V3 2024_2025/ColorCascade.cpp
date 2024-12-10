@@ -4,7 +4,7 @@
 
 #define ColorCascadeDelay 20  // Delay between color Cascade steps in milliseconds
 
-static float brightnessScaling = 0.5; // Brightness scaling factor for the wave effect
+static float brightnessScaling = 0.25; // Brightness scaling factor for the wave effect
 
 // Color Cascade setup function
 void ColorCascade_setup(SPIController& spiController)

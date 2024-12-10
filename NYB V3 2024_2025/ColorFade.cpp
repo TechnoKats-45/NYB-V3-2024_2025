@@ -4,7 +4,7 @@
 
 #define ColorFadeDelay 20  // Delay between color fade steps in milliseconds
 
-static float brightnessScaling = 1; // Brightness scaling factor for the wave effect
+static float brightnessScaling = 0.25; // Brightness scaling factor for the wave effect
 
 // Color fade setup function
 void ColorFade_setup(SPIController& spiController)

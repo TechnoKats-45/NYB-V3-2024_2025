@@ -30,6 +30,7 @@
 #include "NeonStripes.h"
 #include "EchoingCircles.h"
 #include "TurnOffLEDs.h"
+#include "RadiatingRainbow.h"
 
 uint8_t currentMode = 253;
 uint8_t lastMode = 255;
@@ -204,6 +205,9 @@ void setupPattern()
     case 25:
 		EchoingCircles_setup(spiController);
 		break;
+    case 26:
+		RadiatingRainbow_setup(spiController);
+		break;
     case 253:
 		TurnOffLEDs_setup(spiController);
 		break;
@@ -304,6 +308,9 @@ void loopPattern()
 		break;
     case 25:
 		EchoingCircles_loop(spiController);
+		break;
+    case 26:
+		RadiatingRainbow_loop(spiController);
 		break;
     case 253:
 		TurnOffLEDs_loop(spiController);

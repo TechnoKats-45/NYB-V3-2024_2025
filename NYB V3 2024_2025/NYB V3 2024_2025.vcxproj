@@ -76,6 +76,7 @@
   <ItemGroup>
     <ClCompile Include="AmericanFlag.cpp" />
     <ClCompile Include="Aurora.cpp" />
+    <ClCompile Include="RadiatingRainbow.cpp" />
     <ClCompile Include="TurnOffLEDs.cpp" />
     <ClCompile Include="BouncingWave.cpp" />
     <ClCompile Include="Breathing.cpp" />
@@ -118,6 +119,7 @@
   <ItemGroup>
     <ClInclude Include="AmericanFlag.h" />
     <ClInclude Include="Aurora.h" />
+    <ClInclude Include="RadiatingRainbow.h" />
     <ClInclude Include="TurnOffLEDs.h" />
     <ClInclude Include="BouncingWave.h" />
     <ClInclude Include="Breathing.h" />
@@ -151,7 +153,7 @@
     <DebuggerFlavor>VisualMicroDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <IncludePath>$(ProjectDir)..\NYB V3 2024_2025;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\libraries\SPI;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\libraries\EEPROM;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\cores\teensy3;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\arm-none-eabi\thumb\v7e-m\nofp;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\backward;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include-fixed;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\libraries\SPI;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\libraries\EEPROM;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\cores\teensy3;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\arm-none-eabi\thumb\v7e-m\nofp;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\backward;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include-fixed;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include</IncludePath>
     <RemoteCCompileToolExe>$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\bin\arm-none-eabi-g++</RemoteCCompileToolExe>
     <RemoteCppCompileToolExe>$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\bin\arm-none-eabi-g++</RemoteCppCompileToolExe>
     <ValidateArchitecture>false</ValidateArchitecture>
@@ -172,7 +174,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\NYB V3 2024_2025;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\libraries\SPI;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\libraries\EEPROM;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\cores\teensy3;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\arm-none-eabi\thumb\v7e-m\nofp;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\backward;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include-fixed;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\libraries\SPI;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\libraries\EEPROM;$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\hardware\avr\1.59.0\cores\teensy3;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\arm-none-eabi\thumb\v7e-m\nofp;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include\c++\11.3.1\backward;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\lib\gcc\arm-none-eabi\11.3.1\include-fixed;$(ProjectDir)..\..\..\..\appdata\local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\arm-none-eabi\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <GccToolChain>$(ProjectDir)..\..\..\..\AppData\Local\arduino15\packages\teensy\tools\teensy-compile\11.3.1\arm\bin\arm-none-eabi-g++</GccToolChain>
       <CppLanguageStandard>c++17</CppLanguageStandard>
       <CLanguageStandard>gnu11</CLanguageStandard>

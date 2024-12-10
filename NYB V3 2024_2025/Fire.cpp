@@ -4,7 +4,7 @@
 
 #define FireEffectDelay 20  // Delay between fire effect steps in milliseconds
 
-static float brightnessScaling = 1; // Brightness scaling factor for the wave effect
+static float brightnessScaling = 0.5; // Brightness scaling factor for the wave effect
 
 // Fire effect setup function
 void FireEffect_setup(SPIController& spiController)

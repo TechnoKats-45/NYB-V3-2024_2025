@@ -5,7 +5,7 @@
 
 #define CheckerboardDelay 100 // Delay between pattern updates in milliseconds
 
-static float brightnessScaling = 0.5; // Brightness scaling factor for the wave effect
+static float brightnessScaling = 0.25; // Brightness scaling factor for the wave effect
 
 void Checkerboard_setup(SPIController& spiController) {
     spiController.begin(); // Initialize SPI
