@@ -22,13 +22,13 @@ struct Mode
 const int NUM_MODES = 10; // Adjust based on the number of modes
 Mode modes[NUM_MODES] = 
 {
-    {12, "American Flag"},
-    {7, "CheckerBoard"},
-    {5, "Sparkle"},
     {2, "One-At-A-Time-Confetti"},
+    {12, "American Flag"},
+    {7, "Checkerboard"},
+    {5, "Sparkle"},
     {21, "Laser Sweep"},
-    {22, "Spectrum Bars"},
-    {23, "Mosaic Morph"},
+    {45, "Techno Swirl"},
+    {44, "Orbiting Points"},
     {24, "Neon Stripes"},
     {25, "Echoing Circles"},
     {26, "Radiating Rainbows"}
@@ -333,7 +333,7 @@ void serveHTML(EthernetClient &client)
 
 void switchToRandomMode() // Not used
 {
-    mode = random(0, 26); // Random mode between 0 and 26 // TODO - UPDATE THIS ///////////////////////////////////////////////////////////////////////////////
+    mode = random(0, 46); // Random mode between 0 and 26 // TODO - UPDATE THIS ///////////////////////////////////////////////////////////////////////////////
     sendUARTData();
     Serial.println("Switched to random mode: " + String(mode));
 }
