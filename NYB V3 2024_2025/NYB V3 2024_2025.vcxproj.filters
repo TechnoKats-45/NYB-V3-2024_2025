@@ -160,9 +160,6 @@
     <ClCompile Include="FireflySwarm.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
-    <ClCompile Include="RotatingTriadRings.cpp">
-      <Filter>Source Files\Patterns</Filter>
-    </ClCompile>
     <ClCompile Include="InversePinwheel.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
@@ -188,6 +185,9 @@
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
     <ClCompile Include="TechnoSwirl.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="TechnologicalStreaks.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
   </ItemGroup>
@@ -309,9 +309,6 @@
     <ClInclude Include="FireflySwarm.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
-    <ClInclude Include="RotatingTriadRings.h">
-      <Filter>Header Files\Patterns</Filter>
-    </ClInclude>
     <ClInclude Include="PanelMapping.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -340,6 +337,9 @@
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
     <ClInclude Include="TechnoSwirl.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="TechnologicalStreaks.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
   </ItemGroup>

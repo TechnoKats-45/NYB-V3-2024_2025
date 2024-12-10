@@ -42,7 +42,7 @@
 #include "PulsarRings.h"
 #include "PrismTwist.h"
 #include "FireflySwarm.h"
-#include "RotatingTriadRings.h"
+#include "TechnologicalStreaks.h"
 #include "InversePinwheel.h"
 #include "Pinwheel.h"
 #include "PulsingWaves.h"
@@ -258,7 +258,7 @@ void setupPattern()
 		FireflySwarm_setup(spiController);
 		break;
     case 36:
-		RotatingTriadRings_setup(spiController);
+		TechnologicalStreaks_setup(spiController);
 		break;
     case 37:
         InversePinwheel_setup(spiController);
@@ -419,7 +419,7 @@ void loopPattern()
 		FireflySwarm_loop(spiController);
 		break;
     case 36:
-		RotatingTriadRings_loop(spiController);
+		TechnologicalStreaks_loop(spiController);
 		break;
     case 37:
         InversePinwheel_loop(spiController);
