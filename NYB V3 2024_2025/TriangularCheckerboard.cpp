@@ -122,7 +122,7 @@ void TriangularCheckerboard_loop(SPIController& spiController)
     // Send the frame
     spiController.sendStartFrame();
     for (int j = 0; j < NUM_LEDS; j++) {
-        spiController.sendColor(255, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
+        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
     }
     spiController.sendEndFrame(NUM_LEDS);
 

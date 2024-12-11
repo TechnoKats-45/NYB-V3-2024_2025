@@ -15,7 +15,7 @@ static float angleOffset = 0; // Rotational offset for the pinwheel
 static float centerX = 0.0f;  // Center x-coordinate of the triangle
 static float centerY = 0.0f;  // Center y-coordinate of the triangle
 
-static float brightnessScaling = 0.4; // Brightness scaling factor for the wave effect
+static float brightnessScaling = 0.25; // Brightness scaling factor for the wave effect
 
 // LED positions
 static float* ledPositionsX = nullptr;

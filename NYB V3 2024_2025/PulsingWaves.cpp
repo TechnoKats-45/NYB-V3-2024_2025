@@ -19,7 +19,7 @@ static float centerY = 0.0f;  // Center y-coordinate of the triangle
 static float* ledPositionsX = nullptr;
 static float* ledPositionsY = nullptr;
 
-static float brightnessScaling = .4; // Brightness scaling factor for the wave effect
+static float brightnessScaling = .25; // Brightness scaling factor for the wave effect
 
 void PulsingWaves_setup(SPIController& spiController)
 {

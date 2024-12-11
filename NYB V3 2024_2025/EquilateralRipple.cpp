@@ -20,7 +20,7 @@ static float centerY = 0.0f;   // Center y-coordinate of the triangle
 static float* ledPositionsX = nullptr;
 static float* ledPositionsY = nullptr;
 
-static float brightnessScaling = 0.5; // Brightness scaling factor for the wave effect
+static float brightnessScaling = 0.25; // Brightness scaling factor for the wave effect
 
 
 void EquilateralRipple_setup(SPIController& spiController)
