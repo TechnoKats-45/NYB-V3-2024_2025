@@ -36,13 +36,14 @@ void Fireworks_setup(SPIController& spiController) {
             FireworkTrailLength,   // Set trail length
             false,                 // Not exploded yet
             0,                     // Explosion start time
-            {random(100, 255), random(100, 255), random(100, 255)} // Random color
+            {(uint8_t)random(100, 255), (uint8_t)random(100, 255), (uint8_t)random(100, 255)} // Random color
         };
     }
 }
 
 // Loop function for Fireworks mode
-void Fireworks_loop(SPIController& spiController) {
+void Fireworks_loop(SPIController& spiController) 
+{
     uint8_t ledBuffer[NUM_LEDS][3] = { 0 }; // Buffer for LED colors
 
     // Process each firework

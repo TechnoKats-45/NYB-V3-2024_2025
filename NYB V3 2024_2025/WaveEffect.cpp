@@ -31,7 +31,7 @@ void WaveEffect_setup(SPIController& spiController) {
     for (int i = 0; i < NumWaves; i++) {
         waves[i] = {
             0.0f, // Initial position
-            {random(100, 255), random(100, 255), random(100, 255)}, // Random color
+            {(uint8_t)random(100, 255), (uint8_t)random(100, 255), (uint8_t)random(100, 255)}, // Random color
             random(0, 2) == 0 ? 1 : -1 // Random direction
         };
     }

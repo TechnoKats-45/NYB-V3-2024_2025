@@ -47,9 +47,6 @@ void NeonStripes_loop(SPIController& spiController)
     ledBuffer[statusLED][1] = 255; // Green
     ledBuffer[statusLED][2] = 0;   // Blue
 
-    // Calculate total number of rows excluding the status LED row
-    int totalPatternRows = totalRows - 1;
-
     // Calculate the total height of the pattern (number of rows per cycle)
     int patternHeight = NumStripes * StripeWidth;
 

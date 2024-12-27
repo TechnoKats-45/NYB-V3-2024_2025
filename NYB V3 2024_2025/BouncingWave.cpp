@@ -26,7 +26,7 @@ void BouncingWaveEffect_setup(SPIController& spiController) {
     // Initialize bouncing waves with initial color and direction
     for (int i = 0; i < NumBouncingWaves; i++) {
         bouncingWaves[i] = {
-            random(0, totalRows),         // Random initial position
+            static_cast<float>(random(0, totalRows)),         // Random initial position
             {ROYGBIV[i % 7][0], ROYGBIV[i % 7][1], ROYGBIV[i % 7][2]}, // Initialize with ROYGBIV colors
             random(0, 2) == 0 ? 1 : -1   // Random direction
         };

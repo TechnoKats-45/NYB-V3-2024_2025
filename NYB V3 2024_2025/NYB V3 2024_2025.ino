@@ -60,14 +60,22 @@ uint8_t color = 0;
 uint8_t config = 0;
 SPIController spiController;
 
+#define DEBUGSERIAL // Only have commented in for DEBUG Statements to be ENABLED
+
 bool modeChanged = false;  // Flag to indicate if the mode has changed at least once
+const unsigned long timeout = 100;      // Timeout in milliseconds
 
 void setup()
 {
     spiController.begin();
-    Serial.begin(9600);
     Serial1.begin(115200);
 	EEPROM.write(0, 0);  // Reset the color index to red on startup
+
+    #ifdef DEBUGSERIAL
+        Serial.begin(9600);
+    	Serial.println("Starting NYB V3 2024/2025");
+    #endif
+
 }
 
 void loop()
@@ -75,7 +83,6 @@ void loop()
     static uint8_t uartBuffer[4];
     static uint8_t bytesRead = 0;
     static unsigned long lastByteTime = 0;  // Time of last byte received
-    const unsigned long timeout = 100;      // Timeout in milliseconds
 
     while (Serial1.available() > 0)
     {
@@ -114,12 +121,14 @@ void loop()
             bytesRead = 0;  // Reset bytesRead for the next packet
 
             // Debugging output to verify data
-            Serial.println("---------------------------------");
-            Serial.print("Mode: ");
-            Serial.println(currentMode);
-            Serial.print("Brightness: ");
-            Serial.println(MAX_BRIGHTNESS);
-            Serial.println("---------------------------------");
+            #ifdef DEBUGSERIAL
+                Serial.println("---------------------------------");
+                Serial.print("Mode: ");
+                Serial.println(currentMode);
+                Serial.print("Brightness: ");
+                Serial.println(MAX_BRIGHTNESS);
+                Serial.println("---------------------------------");
+            #endif  
 
             // Update pattern if mode has changed
             if (currentMode != lastMode)
@@ -455,7 +464,9 @@ void loopPattern()
 		CountdownEffect_loop(spiController);
         break;
     case 255:
-        Serial.println("Invalid Mode");
+        #ifdef DEBUGSERIAL
+            Serial.println("Invalid Mode");
+        #endif
         Breathing_loop(spiController, NUM_LEDS);
         break;
     default:
