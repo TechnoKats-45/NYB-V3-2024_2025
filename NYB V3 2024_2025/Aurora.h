@@ -12,5 +12,6 @@
 // Setup and loop functions for Aurora effect
 void AuroraEffect_setup(SPIController& spiController);
 void AuroraEffect_loop(SPIController& spiController);
+void AuroraEffect_cleanup();
 
 #endif // AURORA_EFFECT_H

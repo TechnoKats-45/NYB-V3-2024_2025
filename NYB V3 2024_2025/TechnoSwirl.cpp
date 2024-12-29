@@ -1,4 +1,4 @@
-#include "GearburstPulse.h"
+#include "TechnoSwirl.h"
 #include "PanelMapping.h"
 #include "SPIController.h"
 #include "globals.h"
@@ -9,21 +9,20 @@
 #define GEAR_STEPS 10     // Number of steps for gear rotation
 #define MAX_RADIUS 20.0f  // Maximum radius of gear pattern
 
-static float* ledPositionsX = nullptr; // X-coordinates of LEDs
-static float* ledPositionsY = nullptr; // Y-coordinates of LEDs
 static float centerX = 0.0f;           // X-coordinate of center
 static float centerY = 0.0f;           // Y-coordinate of center
 static float rotationAngle = 0.0f;     // Current angle of rotation for symmetry
 
 static float brightnessScaling = 0.5; // Brightness scaling factor for the wave effect
 
+// Static arrays to hold LED positions
+static float ledPositionsX[475];  // Statically allocated array for LED X positions
+static float ledPositionsY[475];  // Statically allocated array for LED Y positions
 
-void TechnoSwirl_setup(SPIController& spiController) {
+
+void TechnoSwirl_setup(SPIController& spiController) 
+{
     spiController.begin();
-
-    // Initialize LED positions
-    ledPositionsX = new float[NUM_LEDS];
-    ledPositionsY = new float[NUM_LEDS];
 
     // Calculate LED positions and center
     int ledCount = 0;

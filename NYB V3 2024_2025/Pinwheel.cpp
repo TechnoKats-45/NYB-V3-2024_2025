@@ -15,19 +15,16 @@ static float angleOffset = 0; // Rotational offset for the pinwheel
 static float centerX = 0.0f;  // Center x-coordinate of the triangle
 static float centerY = 0.0f;  // Center y-coordinate of the triangle
 
-// LED positions
-static float* ledPositionsX = nullptr;
-static float* ledPositionsY = nullptr;
-
 static float brightnessScaling = 1; // Brightness scaling factor for the wave effect
+
+// Static arrays to hold LED positions
+static float ledPositionsX[475];  // Statically allocated array for LED X positions
+static float ledPositionsY[475];  // Statically allocated array for LED Y positions
+
 
 void Pinwheel_setup(SPIController& spiController)
 {
     spiController.begin();
-
-    // Initialize LED positions
-    ledPositionsX = new float[NUM_LEDS];
-    ledPositionsY = new float[NUM_LEDS];
 
     int ledCount = 0;
 

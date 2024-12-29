@@ -3,7 +3,7 @@
 #include <Arduino.h>
 
 // Static variables for non-blocking behavior
-static uint8_t** ledBuffer = nullptr; // Pointer for dynamically allocated LED buffer
+static uint8_t ledBuffer[475][3];  // Statically allocated LED buffer
 static int currentStep = 0;           // Current step in the wave animation
 static unsigned long lastUpdateTime = 0; // Last time the wave was updated
 
@@ -14,17 +14,7 @@ void TidalWave_setup(SPIController& spiController)
 {
     spiController.begin();
 
-    // Allocate memory for LED buffer
-    if (ledBuffer == nullptr)
-    {
-        ledBuffer = new uint8_t * [NUM_LEDS];
-        for (int i = 0; i < NUM_LEDS; i++)
-        {
-            ledBuffer[i] = new uint8_t[3]; // RGB values
-        }
-    }
-
-    // Initialize all LEDs to off
+    // Initialize all LEDs to off (no need for dynamic allocation)
     for (int i = 0; i < NUM_LEDS; i++)
     {
         ledBuffer[i][0] = 0;  // Red
@@ -36,19 +26,6 @@ void TidalWave_setup(SPIController& spiController)
     lastUpdateTime = millis();
 }
 
-// Cleanup function for Tidal Wave (optional for deallocation)
-void TidalWave_cleanup()
-{
-    if (ledBuffer != nullptr)
-    {
-        for (int i = 0; i < NUM_LEDS; i++)
-        {
-            delete[] ledBuffer[i];
-        }
-        delete[] ledBuffer;
-        ledBuffer = nullptr;
-    }
-}
 
 // Loop function for Tidal Wave (non-blocking)
 void TidalWave_loop(SPIController& spiController)

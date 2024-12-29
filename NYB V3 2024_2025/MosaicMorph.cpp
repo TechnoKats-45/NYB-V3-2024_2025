@@ -8,8 +8,8 @@
 
 static float brightnessScaling = 0.25; // Brightness scaling factor for the wave effect
 
-// Declare ledHues as a pointer
-float* ledHues = nullptr;
+// Use a static array instead of a pointer
+static float ledHues[475];
 
 // Helper function to convert HSV to RGB
 void HSVtoRGB(float h, float s, float v, uint8_t& r, uint8_t& g, uint8_t& b)
@@ -34,9 +34,6 @@ void HSVtoRGB(float h, float s, float v, uint8_t& r, uint8_t& g, uint8_t& b)
 void MosaicMorph_setup(SPIController& spiController)
 {
     spiController.begin();
-
-    // Dynamically allocate memory for ledHues
-    ledHues = new float[NUM_LEDS];
 
     // Initialize ledHues with random starting hues
     for (int i = 0; i < NUM_LEDS; i++) {

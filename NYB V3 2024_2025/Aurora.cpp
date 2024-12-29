@@ -4,6 +4,9 @@
 #include <Arduino.h>
 #include <math.h>
 
+// Use a static array for phaseOffsets instead of dynamically allocating
+static float phaseOffsets[475] = { 0 };  // Statically allocated phase offsets
+
 static float brightnessScaling = 0.25; // Brightness scaling factor for the wave effect
 
 // Gradient colors for the aurora (transitioning smoothly between green, blue, and purple)
@@ -17,16 +20,11 @@ const uint8_t AuroraColors[7][3] = {
     {255, 0, 127}    // Pink
 };
 
-float* phaseOffsets = nullptr; // Dynamically allocated array for phase offsets
-
 // Setup function for AuroraEffect mode
 void AuroraEffect_setup(SPIController& spiController) {
     spiController.begin();
 
-    // Dynamically allocate phase offsets array
-    phaseOffsets = new float[NUM_LEDS];
-
-    // Initialize phase offsets for each LED
+    // Initialize phase offsets for each LED (now in a static array)
     for (int i = 0; i < NUM_LEDS; i++) {
         phaseOffsets[i] = random(0, 1000) / 100.0; // Random initial phases for smooth animations
     }
@@ -54,8 +52,8 @@ void AuroraEffect_loop(SPIController& spiController) {
 
             // Smoothly interpolate between colors
             for (int c = 0; c < 3; c++) {
-                ledBuffer[ledNumber][c] = AuroraColors[colorIndex][c] * (1.0 - intensity) +
-                    AuroraColors[nextColorIndex][c] * intensity;
+                ledBuffer[ledNumber][c] = AuroraColors[colorIndex][c] * (1.0 - intensity)
+                    + AuroraColors[nextColorIndex][c] * intensity;
                 ledBuffer[ledNumber][c] = min(ledBuffer[ledNumber][c] * AuroraIntensity, 255.0f);
             }
         }
@@ -64,17 +62,17 @@ void AuroraEffect_loop(SPIController& spiController) {
     // Send the frame to the LEDs
     spiController.sendStartFrame();
     for (int j = 0; j < NUM_LEDS; j++) {
-        spiController.sendColor(brightnessScaling*MAX_BRIGHTNESS, ledBuffer[j][0], ledBuffer[j][1], ledBuffer[j][2]);
+        spiController.sendColor(brightnessScaling * MAX_BRIGHTNESS,
+            ledBuffer[j][0],
+            ledBuffer[j][1],
+            ledBuffer[j][2]);
     }
     spiController.sendEndFrame(NUM_LEDS);
 
     delay(10); // Slight delay for smooth animations
 }
 
-// Cleanup function to free dynamically allocated memory
+// Cleanup function (left empty since we no longer allocate dynamically)
 void AuroraEffect_cleanup() {
-    if (phaseOffsets != nullptr) {
-        delete[] phaseOffsets;
-        phaseOffsets = nullptr;
-    }
+    // Nothing to free: phaseOffsets is statically allocated
 }

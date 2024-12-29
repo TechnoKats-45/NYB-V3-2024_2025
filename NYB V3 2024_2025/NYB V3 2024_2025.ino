@@ -65,6 +65,15 @@ SPIController spiController;
 bool modeChanged = false;  // Flag to indicate if the mode has changed at least once
 const unsigned long timeout = 100;      // Timeout in milliseconds
 
+extern "C" char* sbrk(int incr);
+
+// Function to estimate free memory
+int freeMemory() {
+    char stackTop;          // Stack pointer (approx)
+    char* heapEnd = sbrk(0);
+    return &stackTop - heapEnd;
+}
+
 void setup()
 {
     spiController.begin();
@@ -141,6 +150,9 @@ void loop()
     }
 
     loopPattern();
+
+    Serial.print("Free memory: ");
+    Serial.println(freeMemory());
 }
 
 void setupPattern()
@@ -216,6 +228,7 @@ void setupPattern()
 		AuroraEffect_setup(spiController);
 		break;
     case 19:
+        AuroraEffect_cleanup();
 		GalaxySwirl_setup(spiController);
         break;
     case 20:
@@ -291,7 +304,8 @@ void setupPattern()
 		InwardCollapse_setup(spiController);
 		break;
     case 44:
-		OrbitingPoints_setup(spiController);
+		//OrbitingPoints_setup(spiController);  // This pattern is broken and needs to be fixed
+        EchoingCircles_setup(spiController);
 		break;
     case 45:
 		TechnoSwirl_setup(spiController);
@@ -452,10 +466,11 @@ void loopPattern()
 		InwardCollapse_loop(spiController);
 		break;
     case 44:
-		OrbitingPoints_loop(spiController);
+		//OrbitingPoints_loop(spiController);   // This pattern is broken and needs to be fixed
+        EchoingCircles_loop(spiController);
 		break;
     case 45:
-		TechnoSwirl_loop(spiController);
+		//TechnoSwirl_loop(spiController);  // This pattern is broken and needs to be fixed
 		break;
     case 253:
 		TurnOffLEDs_loop(spiController);

@@ -14,10 +14,6 @@ static float centerX = 0.0f;
 static float centerY = 0.0f;
 static float angle = 0.0f;
 
-// Arrays to hold LED positions
-static float* ledPositionsX = nullptr;
-static float* ledPositionsY = nullptr;
-
 // Positions of the three orbiting points
 static float pointRadius = 0.0f;
 
@@ -25,16 +21,15 @@ static float brightnessScaling = 1; // Brightness scaling factor for the wave ef
 
 boolean firstTime;
 
+// Static arrays to hold LED positions
+static float ledPositionsX[475];  // Statically allocated array for LED X positions
+static float ledPositionsY[475];  // Statically allocated array for LED Y positions
 
 void OrbitingPoints_setup(SPIController& spiController) 
 {
     spiController.begin();
 
 	firstTime = true;
-
-    // Initialize LED positions
-    ledPositionsX = new float[NUM_LEDS];
-    ledPositionsY = new float[NUM_LEDS];
 
     // Calculate center and LED positions
     int maxRowSize = 0;

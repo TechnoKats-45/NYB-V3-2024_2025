@@ -13,7 +13,7 @@ struct LEDColor {
     uint8_t blue;
 };
 
-LEDColor* ledColors = nullptr;
+static LEDColor ledColors[475];
 
 // Confetti setup function
 void OneAtATimeConfetti_setup(SPIController& spiController, int numLEDs)
@@ -22,7 +22,6 @@ void OneAtATimeConfetti_setup(SPIController& spiController, int numLEDs)
     randomSeed(analogRead(A0));  // Seed random generator
 
     // Initialize LED color array
-    ledColors = new LEDColor[numLEDs];
     for (int i = 0; i < numLEDs; i++) {
         ledColors[i] = { 0, 0, 0 };  // Start with LEDs off
     }

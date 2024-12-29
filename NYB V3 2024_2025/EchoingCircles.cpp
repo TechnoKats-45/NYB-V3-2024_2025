@@ -24,9 +24,10 @@ static Circle circles[MaxCircles];
 static float centerX = 0.0f;
 static float centerY = 0.0f;
 
-// Arrays to hold LED positions
-static float* ledPositionsX = nullptr;
-static float* ledPositionsY = nullptr;
+// Static arrays to hold LED positions
+static float ledPositionsX[475];  // Statically allocated array for LED X positions
+static float ledPositionsY[475];  // Statically allocated array for LED Y positions
+
 
 void EchoingCircles_setup(SPIController& spiController)
 {
@@ -38,10 +39,6 @@ void EchoingCircles_setup(SPIController& spiController)
         circles[i].speed = 0.5f;        // Speed at which circles expand
         circles[i].active = true;
     }
-
-    // Initialize LED positions
-    ledPositionsX = new float[NUM_LEDS];
-    ledPositionsY = new float[NUM_LEDS];
 
     // Calculate center and LED positions
     int maxRowSize = 0;
